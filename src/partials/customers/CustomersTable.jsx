@@ -27,18 +27,14 @@ function CustomersTable({ selectedItems }) {
           "http://100.25.131.90:8000/status",
           requestOptions
         );
-       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        setCustomers(data);
+        setList(data);
+        console.log(data); // Do something with the response data
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-      const data = await response.json();
-      setCustomers(data);
-      setList(data);
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      alert("Error fetching data. Please try again later.");
     }
-  }
 
     useEffect(() => {
     fetchData();
