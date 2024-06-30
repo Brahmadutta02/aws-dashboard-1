@@ -217,7 +217,7 @@ function CustomersTable({ selectedItems }) {
         onClick={previousPage}
         disabled={currentPage === 1}
         className="px-4 py-2 mr-2 bg-indigo-500 text-white rounded-md disabled:opacity-50"
-        style={{ position: 'relative', top: '50px', left:'518px' }} // Example positioning style
+        style={{ position: 'relative', top: '50px', left:'44%' }} // Example positioning style
       >
         Previous
       </button>
@@ -225,7 +225,7 @@ function CustomersTable({ selectedItems }) {
         onClick={nextPage}
         disabled={currentPage === totalPages}
         className="px-4 py-2 bg-indigo-500 text-white rounded-md disabled:opacity-50"
-        style={{ position: 'relative', top: '50px', left:'512px' }} // Example positioning style
+        style={{ position: 'relative', top: '3.125rem', left:'44%' }} // Example positioning style
       >
         Next
       </button>

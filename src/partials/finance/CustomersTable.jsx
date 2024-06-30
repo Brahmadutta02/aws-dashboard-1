@@ -27,8 +27,12 @@ function TransactionsTable({selectedItems}) {
         };
         const response = await fetch(
           "http://100.25.131.90:8000/status",
-          requestOptions
+          requestOptions 
         );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
         setTransaction(data);
         setList(data);
@@ -233,7 +237,7 @@ function TransactionsTable({selectedItems}) {
         onClick={previousPage}
         disabled={currentPage === 1}
         className="px-4 py-2 mr-1 bg-indigo-500 text-white rounded-md disabled:opacity-50"
-        style={{ position: 'relative', top: '50px', left:'590px' }} // Example positioning style
+        style={{ position: 'relative', top: '50px', left:'49.5%' }} // Example positioning style
       >
         Previous
       </button>
@@ -241,7 +245,7 @@ function TransactionsTable({selectedItems}) {
         onClick={nextPage}
         disabled={currentPage === totalPages}
         className="px-4 py-2 bg-indigo-500 text-white rounded-md disabled:opacity-50"
-        style={{ position: 'relative', top: '50px', left:'590px' }} // Example positioning style
+        style={{ position: 'relative', top: '50px', left:'49.5%' }} // Example positioning style
       >
         Next
       </button>
