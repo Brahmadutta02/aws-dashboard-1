@@ -26,7 +26,7 @@ function TransactionsTable({selectedItems}) {
           }
         };
         const response = await fetch(
-          "http://100.25.131.90:8000/status",
+          "https://100.25.131.90:8000/status",
           requestOptions 
         );
         if (!response.ok) {
@@ -55,7 +55,7 @@ function TransactionsTable({selectedItems}) {
 
   const handleUrlSubmit = (e) => {
     e.preventDefault();
-    fetch('http://100.25.131.90:8000/comments/', {
+    fetch('https://100.25.131.90:8000/comments/', {
       method: 'POST',
       body: JSON.stringify({
         url: newUrl,
