@@ -154,16 +154,7 @@ function CompanyProfile() {
                       width: "120px",
                       height: "40px",
                     }}
-                    // onClick={() => {
-                    //   // Submit input logic
-                    //   const inputField =
-                    //     document.querySelector('input[type="text"]');
-                    //   if (inputField) {
-                    //     const value = inputField.value;
-                    //     // Submit value (you can implement your submit logic here)
-                    //     console.log("Submitted:", value);
-                    //   }
-                    // }}
+                    
                     onClick={handleSubmit}
                   >
                     Submit

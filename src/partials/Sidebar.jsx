@@ -74,7 +74,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   };
 
   return (
-    <div className="min-w-fit" style={{ position: "relative", width: "100px" }}>
+    <div className="min-w-fit" style={{ position: "relative", width: "0px" }}>
       {/* Sidebar backdrop (mobile only) */}
       <div
         className={`fixed inset-0 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${

@@ -8,8 +8,6 @@ import JobListItem from '../../partials/job/JobListItem';
 import PaginationNumeric from '../../components/PaginationNumeric';
 
 function JobListing() {
-  
-
   const items = [
     {
       id: 0,
@@ -21,8 +19,6 @@ function JobListing() {
       type: 'Featured',
       fav: false,
       bgColor: 'bg-blue-600/95',
-      
-      
     },
     {
       id: 1,
@@ -130,8 +126,9 @@ function JobListing() {
   items.forEach(item => {
     console.log(item);
   });
+
   return (
-    <div className="flex h-[100dvh] overflow-hidden">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -140,64 +137,42 @@ function JobListing() {
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        <main className="grow" >
+        <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
             {/* Page header */}
-            <div >
-            <div className="px-20 mb-4 sm:mb-0 flex justify-center items-center">
-                <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold"  >Trending Hashags ✨</h1>
+            <div className="flex justify-center items-center mb-8">
+              <div className="text-center">
+                <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">Trending Hashtags ✨</h1>
               </div>
-              {/* Left: Title */}
-              {/* <div className="mb-4 sm:mb-0 flex justify-center items-center">
-                <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold"  style={{position:'relative', left:'400px'}}>Trending Hashags ✨</h1>
-              </div> */}
-              {/* <div className="mb-4 sm:mb-0">
-                <h1 className="text-sm md:text-l text-slate-800 dark:text-slate-100 font-bold">Last Refresh Times</h1>
-                <p className="text-xs text-gray-500">{new Date().toISOString().replace('T', ' ').split('.')[0]}</p>
-              </div> */}
-              {/* <div className="mb-4 sm:mb-0" style={{ position:'relative', left:'90%', bottom:'50px' }}>
-  <h1 className="text-sm md:text-l text-slate-800 dark:text-slate-100 font-bold" style={{}}>Last Refresh Time</h1>
-  <p className="text-xs text-gray-500" style={{ fontSize: '0.75rem', color: '#A0AEC0' }}>
-    {new Date().toISOString().replace('T', ' ').split('.')[0]}
-  </p>
-</div> */}
-<div className="mb-4 sm:mb-0 flex flex-col items-end sm:items-end" style={{position:'relative', bottom:'40px'}}>
-  <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">Last Refresh Time</h1>
-  <p className="text-xs text-gray-500" style={{ fontSize: '0.75rem', color: '#A0AEC0' }}>
-    {new Date().toISOString().replace('T', ' ').split('.')[0]}
-  </p>
-</div>
-
-
             </div>
 
-            
+            <div className="flex justify-end mb-8">
+              <div className="text-right">
+                <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">Last Refresh Time</h1>
+                <p className="text-xs text-gray-500">
+                  {new Date().toISOString().replace('T', ' ').split('.')[0]}
+                </p>
+              </div>
+            </div>
 
             {/* Page content */}
-            <div className="flex flex-col space-y-10 sm:flex-row sm:space-x-6 sm:space-y-0 md:flex-col md:space-x-0 md:space-y-10 xl:flex-row xl:space-x-6 xl:space-y-0 mt-9">
+            <div className="grid grid-cols-1 gap-6">
               {/* Content */}
-              <div className='w-full' >
+              <div className="w-full ">
                 {/* Jobs list */}
-                <div className="flex justify-center" style={{position:'relative', right:'10px', bottom:'50px'}}>
-                  <div className='space-y-1 text-center' style={{width: '35%'}}>
-                    {items.map((item) => {
-                      // const markedRole = item.role.replace('Web', '<mark>Web</mark>');
-                      return (
-                        <JobListItem
-                          key={item.id}
-                          id={item.id}
-                          company={item.company}
-                          // role={<span dangerouslySetInnerHTML={{__html: markedRole}} />}
-                          role={item.role}
-                          // link={item.link}
-                          // details={item.details}
-                          date={item.date}
-                          type={item.type}
-                          // fav={item.fav}
-                          bgColor={item.bgColor}
-                        />
-                      );
-                    })}
+                <div className="flex justify-center">
+                  <div className="space-y-4 w-full max-w-md">
+                    {items.map((item) => (
+                      <JobListItem
+                        key={item.id}
+                        id={item.id}
+                        company={item.company}
+                        role={item.role}
+                        date={item.date}
+                        type={item.type}
+                        bgColor={item.bgColor}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>

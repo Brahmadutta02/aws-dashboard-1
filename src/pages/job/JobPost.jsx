@@ -6,16 +6,9 @@ import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 
 function JobPost() {
-
-  
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-
   const [activeTab, setActiveTab] = useState(0); 
-
   const [selectedButton, setSelectedButton] = useState('Title');
-
   const [placeholderText, setPlaceholderText] = useState("");
 
   // const handleChange = (e) => {
@@ -81,18 +74,14 @@ function JobPost() {
         <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
             {/* Page content */}
-            <div className="mb-4 sm:mb-0 flex justify-center">
-              <h1
-                className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold"
-                // style={{ position: "relative", left: "400px", bottom: "5px" }}
-              >
+            <div class="mb-4 sm:mb-0 flex justify-center">
+              <h1 class="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
                 Content Suggestion ✨
               </h1>
             </div>
             <div className="max-w-5xl mx-auto flex flex-col lg:flex-row lg:space-x-8 xl:space-x-16">
               {/* Content */}
-              <div>                
-              </div>
+              <div></div>
               <div
                 className="w-full lg:w-xl"
                 style={{ position: "relative", right: "20%" }}
@@ -103,104 +92,103 @@ function JobPost() {
                   <div className="flex-1">
                     <h1
                       style={{
-                        fontSize: "10px",
+                        fontSize: "0.9rem", // Adjusted for responsiveness
                         fontWeight: "bold",
                         color: "#8f97a9",
                         position: "relative",
-                        top: "30px",
-                        left: "253px",
+                        top: "1.5rem", // Adjusted for responsiveness
+                        right: "4.9rem", // Adjusted for responsiveness
+                        textAlign: "center", // Center align text for responsiveness
                       }}
-                      
                     >
                       Prompt
                     </h1>
                     <textarea
-                    value={placeholderText}
-                    onChange={handleChange}
-                    placeholder="Enter Placeholder Text"
-                    className="w-full bg-white-700 hover:bg-indigo-100 text-black p-3 rounded-md"
-                    style={{
-                      width: "104%",
-                      position: "relative",
-                      left: "252px",
-                      height: "100%",
-                      top: "30px",
-                    }}
-                  />
-
-                    
+                      value={placeholderText}
+                      onChange={handleChange}
+                      placeholder="Enter Placeholder Text"
+                      className="w-full bg-white-700 hover:bg-indigo-100 text-black p-3 rounded-md"
+                      style={{
+                        width: "100%", // Responsive width
+                        position: "relative",
+                        left: "15.75rem", // Adjusted for responsiveness
+                        top: "1.875rem", // Adjusted for responsiveness
+                        height: "10rem", // Adjusted for responsiveness
+                      }}
+                    />
                   </div>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4b"
-                    style={{
-                      position: "relative",
-                      left: "45%",
-                      transform: "translateX(-50%)",
-                      top: "243px",
-                      width: "120px",
-                      height: "40px",
-                    }}
-                    
-                    onClick={clearTextarea}
-                  >
-                    Clear
-                  </button>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mb-4b"
-                    style={{
-                      position: "relative",
-                      left: "35%",
-                      transform: "translateX(-70%)",
-                      top: "284px",
-                      width: "120px",
-                      height: "40px",
-                    }}
-                    // onClick={() => {
-                    //   // Submit input logic
-                    //   const inputField =
-                    //     document.querySelector('input[type="text"]');
-                    //   if (inputField) {
-                    //     const value = inputField.value;
-                    //     // Submit value (you can implement your submit logic here)
-                    //     console.log("Submitted:", value);
-                    //   }
-                    // }}
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
+
+                  <div style={{ textAlign: "center" }}>
+  <button
+    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4"
+    style={{
+      position: "relative",
+      left: "150%",
+      top: "137%",
+      transform: "translateX(-50%)",
+      width: "120px",
+      height: "40px",
+    }}
+    onClick={clearTextarea}
+  >
+    Clear
+  </button>
+  <button
+    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mb-4"
+    style={{
+      position: "relative",
+      top: "160%",
+      left: "50%",
+      transform: "translateX(50%)",
+      width: "120px",
+      height: "40px",
+    }}
+    onClick={handleSubmit}
+  >
+    Submit
+  </button>
+</div>
+
                 </div>
-                
+
                 <br></br>
-                
 
-                <h1
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    color: "#8f97a9",
-                    position: "relative",
-                    top: "30px",
-                    left: "252px",
-                  }}
-                >
-                  Response
-                </h1>
+                <div className="container">
+  <h1
+    style={{
+      fontSize: "0.9rem", // Adjust font size as needed
+      fontWeight: "bold",
+      color: "#8f97a9",
+      position: "relative",
+      right: "11.9rem",
+      top: "0.5rem",
+      textAlign: "center", // Center align for responsiveness
+      marginBottom: "1rem", // Add space below the heading
+    }}
+  >
+    Response
+  </h1>
 
-                <div
-                  className="bg-white dark:bg-slate-700 p-5 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mx-auto"
-                  style={{
-                    width:'750px',
-                    height:'376px',
-                    position: "relative",
-                    left: "146px",
-                    top: "30px",
-                    borderRadius: "5px",
-                    border:'1px solid black',
-                    // textAlign: "center"
-                  }}
-                ><p>{submittedText}</p>
-                </div>
+  <div
+    className="response-box"
+    style={{
+      backgroundColor: "#334155", // White background
+      padding: "1rem", // Padding for content
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow effect
+      borderRadius: "5px", // Rounded corners
+      border: "1px solid #000000", // Black border
+      maxWidth: "75.3%", // Maximum width for responsiveness
+      margin: "0 auto", // Center align horizontally
+      boxSizing: "border-box", // Include padding in width
+      position: "relative",
+      left: "8.3rem",
+      height: "25rem"
+    }}
+  >
+    <p>{submittedText}</p>
+  </div>
+</div>
+
               </div>
             </div>
           </div>
