@@ -1,6 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import TransactionItem from './TransactionsTableItem';
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
+
+const corsOptions = {
+  origin: 'http://100.25.131.90:8000/status', // Change to your deployment server's address
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+app.get('/status', (req, res) => {
+  res.json({ message: "API is working" });
+});
+
+app.listen(8000, () => {
+  console.log('Server is running on port 8000');
+});
 
 function TransactionsTable({selectedItems}) {
 
@@ -17,30 +35,27 @@ function TransactionsTable({selectedItems}) {
   };
 
   
-    async function fetchData() {
-      try {
-        const requestOptions = {
-          method: "GET",
-          headers: {
-            accept: "application/json"
-          }
-        };
-        const response = await fetch(
-          "http://100.25.131.90:8000/status",
-          requestOptions 
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  async function fetchData() {
+    try {
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          accept: "application/json"
         }
-        
-        const data = await response.json();
-        setTransaction(data);
-        setList(data);
-        console.log(data); // Do something with the response data
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      };
+      const response = await fetch("http://100.25.131.90:8000/status", requestOptions);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
+      const data = await response.json();
+      setTransaction(data);
+      setList(data);
+      console.log(data); // Do something with the response data
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  }
 
     useEffect(() => {
     fetchData();
