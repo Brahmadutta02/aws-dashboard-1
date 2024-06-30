@@ -27,12 +27,16 @@ function CustomersTable({ selectedItems }) {
           "http://100.25.131.90:8000/status",
           requestOptions
         );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         setCustomers(data);
         setList(data);
-        console.log(data); // Do something with the response data
+        console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+        alert("Error fetching data. Please try again later.");
       }
     }
 
@@ -52,18 +56,23 @@ function CustomersTable({ selectedItems }) {
         'Content-Type': 'application/json',
       },
     })
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
     .then((data) => {
-      // Handle the response data if needed
       console.log(data);
-      // After successful POST request, trigger a reload of the table data
       fetchData();
     })
     .catch((err) => {
       console.log(err.message);
+      alert("Error submitting URL. Please try again later.");
     });
-    setNewUrl(""); // Reset the input field after submitting
+    setNewUrl("");
   };
+
 
   const handleRefresh = () => {
     // Trigger a reload of the table data
