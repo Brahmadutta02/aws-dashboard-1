@@ -245,7 +245,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </div>
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                        <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
+                        <ul className={`pl-9 mt-1 ${!open && "open"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
@@ -350,7 +350,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                         >
                                           <ul
                                             className={`pl-9 mt-1 ${
-                                              !open && "hidden"
+                                              !open && "open"
                                             }`}
                                           >
                                             <li className="mb-1 last:mb-0">
@@ -655,7 +655,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </div>
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                        <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
+                        <ul className={`pl-9 mt-1 ${!open && "open"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end

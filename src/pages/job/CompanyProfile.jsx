@@ -74,7 +74,7 @@ function CompanyProfile() {
           {/*  Site header */}
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-          <main className="grow" style={{overflowX:'hidden', overflowY:'hidden'}}>
+          <main className="grow" style={{overflow:'auto'}}>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
             {/* Page content */}
             <div className="mb-4 sm:mb-0 flex justify-center">
@@ -102,63 +102,63 @@ function CompanyProfile() {
                   <div className="flex-1">
                     <h1
                       style={{
-                        fontSize: "10px",
+                        fontSize: "0.9rem", // Adjusted for responsiveness
                         fontWeight: "bold",
                         color: "#8f97a9",
                         position: "relative",
-                        top: "30px",
-                        left: "253px",
+                        top: "1.5rem", // Adjusted for responsiveness
+                        right: "4.9rem", // Adjusted for responsiveness
+                        textAlign: "center", // Center align text for responsiveness
                       }}
-                      
                     >
                       Prompt
                     </h1>
                     <textarea
-                    value={placeholderText}
-                    onChange={handleChange}
-                    placeholder="Enter Placeholder Text"
-                    className="w-full bg-white-700 hover:bg-indigo-100 text-black p-3 rounded-md"
-                    style={{
-                      width: "104%",
-                      position: "relative",
-                      left: "252px",
-                      height: "100%",
-                      top: "30px",
-                    }}
-                  />
-
-                    
+                      value={placeholderText}
+                      onChange={handleChange}
+                      placeholder="Enter Placeholder Text"
+                      className="w-full bg-white-700 hover:bg-indigo-100 text-black p-3 rounded-md"
+                      style={{
+                        width: "100%", // Responsive width
+                        position: "relative",
+                        left: "15.75rem", // Adjusted for responsiveness
+                        top: "1.875rem", // Adjusted for responsiveness
+                        height: "10rem", // Adjusted for responsiveness
+                        overflow: "auto", // Add this line for scrollbar
+                      }}
+                    />
                   </div>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4"
-                    style={{
-                      position: "relative",
-                      left: "45%",
-                      transform: "translateX(-50%)",
-                      top: "243px",
-                      width: "120px",
-                      height: "40px",
-                    }}
-                    
-                    onClick={clearTextarea}
-                  >
-                    Clear
-                  </button>
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mb-4b"
-                    style={{
-                      position: "relative",
-                      left: "35%",
-                      transform: "translateX(-70%)",
-                      top: "284px",
-                      width: "120px",
-                      height: "40px",
-                    }}
-                    
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
+
+                  <div>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4"
+                      style={{
+                        position: "relative",
+                        left: "150%",
+                        top: "137%",
+                        transform: "translateX(-50%)",
+                        width: "120px",
+                        height: "40px",
+                      }}
+                      onClick={clearTextarea}
+                    >
+                      Clear
+                    </button>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mb-4"
+                      style={{
+                        position: "relative",
+                        top: "160%",
+                        left: "50%",
+                        transform: "translateX(50%)",
+                        width: "120px",
+                        height: "40px",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
                 
                 <br></br>
@@ -178,19 +178,24 @@ function CompanyProfile() {
                 </h1>
 
                 <div
-                  className="bg-white dark:bg-slate-700 p-5 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 mx-auto"
-                  style={{
-                    width:'750px',
-                    height:'376px',
-                    position: "relative",
-                    left: "146px",
-                    top: "30px",
-                    borderRadius: "5px",
-                    border:'1px solid black',
-                    // textAlign: "center"
-                  }}
-                ><p>{submittedText}</p>
-                </div>
+                    className="response-box"
+                    style={{
+                      backgroundColor: "#334155", // Background color
+                      padding: "1rem", // Padding for content
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow effect
+                      borderRadius: "5px", // Rounded corners
+                      border: "1px solid #000000", // Black border
+                      maxWidth: "75.3%", // Maximum width for responsiveness
+                      margin: "0 auto", // Center align horizontally
+                      boxSizing: "border-box", // Include padding in width
+                      position: "relative",
+                      left: "8.3rem",
+                      height: "25rem", // Fixed height for the box
+                      overflow: "auto", // Scrollbar when content exceeds height
+                    }}
+                  >
+                    <p>{submittedText}</p>
+                  </div>
                 
 
                 <div
@@ -255,20 +260,4 @@ function CompanyProfile() {
 }
 
 export default CompanyProfile;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

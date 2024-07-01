@@ -11,15 +11,9 @@ function JobPost() {
   const [selectedButton, setSelectedButton] = useState('Title');
   const [placeholderText, setPlaceholderText] = useState("");
 
-  // const handleChange = (e) => {
-  //   setPlaceholderText(e.target.value);
-  // }
-
   const clearTextarea = () => {
     setPlaceholderText(""); // Clear the content of the textarea by updating the state
   };
-
-
 
   const DeviceSizeCheck  = () => {
     const isDesktopOrLaptop = useMediaQuery({
@@ -74,8 +68,8 @@ function JobPost() {
         <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
             {/* Page content */}
-            <div class="mb-4 sm:mb-0 flex justify-center">
-              <h1 class="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
+            <div className="mb-4 sm:mb-0 flex justify-center">
+              <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
                 Content Suggestion ✨
               </h1>
             </div>
@@ -114,81 +108,81 @@ function JobPost() {
                         left: "15.75rem", // Adjusted for responsiveness
                         top: "1.875rem", // Adjusted for responsiveness
                         height: "10rem", // Adjusted for responsiveness
+                        overflow: "auto", // Add this line for scrollbar
                       }}
                     />
                   </div>
 
-                  <div style={{ textAlign: "center" }}>
-  <button
-    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4"
-    style={{
-      position: "relative",
-      left: "150%",
-      top: "137%",
-      transform: "translateX(-50%)",
-      width: "120px",
-      height: "40px",
-    }}
-    onClick={clearTextarea}
-  >
-    Clear
-  </button>
-  <button
-    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mb-4"
-    style={{
-      position: "relative",
-      top: "160%",
-      left: "50%",
-      transform: "translateX(50%)",
-      width: "120px",
-      height: "40px",
-    }}
-    onClick={handleSubmit}
-  >
-    Submit
-  </button>
-</div>
-
+                  <div>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4"
+                      style={{
+                        position: "relative",
+                        left: "150%",
+                        top: "137%",
+                        transform: "translateX(-50%)",
+                        width: "120px",
+                        height: "40px",
+                      }}
+                      onClick={clearTextarea}
+                    >
+                      Clear
+                    </button>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mb-4"
+                      style={{
+                        position: "relative",
+                        top: "160%",
+                        left: "50%",
+                        transform: "translateX(50%)",
+                        width: "120px",
+                        height: "40px",
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
 
                 <br></br>
 
                 <div className="container">
-  <h1
-    style={{
-      fontSize: "0.9rem", // Adjust font size as needed
-      fontWeight: "bold",
-      color: "#8f97a9",
-      position: "relative",
-      right: "11.9rem",
-      top: "0.5rem",
-      textAlign: "center", // Center align for responsiveness
-      marginBottom: "1rem", // Add space below the heading
-    }}
-  >
-    Response
-  </h1>
+                  <h1
+                    style={{
+                      fontSize: "0.9rem", // Adjust font size as needed
+                      fontWeight: "bold",
+                      color: "#8f97a9",
+                      position: "relative",
+                      right: "11.9rem",
+                      top: "0.5rem",
+                      textAlign: "center", // Center align for responsiveness
+                      marginBottom: "1rem", // Add space below the heading
+                    }}
+                  >
+                    Response
+                  </h1>
 
-  <div
-    className="response-box"
-    style={{
-      backgroundColor: "#334155", // White background
-      padding: "1rem", // Padding for content
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow effect
-      borderRadius: "5px", // Rounded corners
-      border: "1px solid #000000", // Black border
-      maxWidth: "75.3%", // Maximum width for responsiveness
-      margin: "0 auto", // Center align horizontally
-      boxSizing: "border-box", // Include padding in width
-      position: "relative",
-      left: "8.3rem",
-      height: "25rem"
-    }}
-  >
-    <p>{submittedText}</p>
-  </div>
-</div>
-
+                  <div
+                    className="response-box"
+                    style={{
+                      backgroundColor: "#334155", // Background color
+                      padding: "1rem", // Padding for content
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow effect
+                      borderRadius: "5px", // Rounded corners
+                      border: "1px solid #000000", // Black border
+                      maxWidth: "75.3%", // Maximum width for responsiveness
+                      margin: "0 auto", // Center align horizontally
+                      boxSizing: "border-box", // Include padding in width
+                      position: "relative",
+                      left: "8.3rem",
+                      height: "25rem", // Fixed height for the box
+                      overflow: "auto", // Scrollbar when content exceeds height
+                    }}
+                  >
+                    <p>{submittedText}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -200,10 +194,3 @@ function JobPost() {
 }
 
 export default JobPost;
-
-
-
-
-
-
-
