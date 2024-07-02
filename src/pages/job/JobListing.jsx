@@ -188,19 +188,23 @@ function JobListing() {
 
             {/* Date and Time stamp */}
             <div className="flex justify-end mb-8">
-              <div className="text-right">
-                <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">
-                  Last Refresh Time
-                </h1>
-                <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold text-center">
-                  {new Date().toISOString().replace("T", " ").split(".")[0]}
-                </p>
-              </div>
-            </div>
+  <div className="text-right">
+    <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">
+      Last Refresh Time
+    </h1>
+    <div className="p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700">
+      <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold text-center">
+        {new Date().toISOString().split("T")[0]}
+      </p>
+    </div>
+  </div>
+</div>
+
+
 
             {/* Country details */}
-            <div >
-            <div className="flex flex-col items-center justify-end mb-8 w-64 h-1">
+            
+            <div className="flex flex-col items-center justify-end mb-8 w-64 h-1" style={{marginTop: "-2.1rem"}}>
               <label
                 htmlFor="region"
                 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
@@ -211,7 +215,7 @@ function JobListing() {
                 id="region"
                 value={region}
                 onChange={handleRegionChange}
-                className="text-gray-900 dark:text-gray-900 w-full rounded-md"
+                className="text-gray-900 dark:text-gray-100 w-full bg-slate-50 dark:bg-slate-700 rounded-md"
               >
                 {regionsData.options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -220,7 +224,7 @@ function JobListing() {
                 ))}
               </select>
             </div>
-            </div>
+            
 
             {/* Page content */}
             <div className="grid grid-cols-1 gap-6">
