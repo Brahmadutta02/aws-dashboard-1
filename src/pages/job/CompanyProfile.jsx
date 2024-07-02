@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
@@ -30,7 +29,7 @@ function CompanyProfile() {
 
   const [submittedText, setSubmittedText] = useState("");
 
-  
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const clearTextarea = () => {
     setPlaceholderText(""); // Clear the content of the textarea by updating the state
@@ -41,11 +40,18 @@ function CompanyProfile() {
   };
 
   const handleSubmit = () => {
-    // Submit logic
-    // console.log("Submitted:", placeholderText); // Log the submitted value (you can implement your own submit logic here)
     setSubmittedText(placeholderText);
+    setCurrentIndex(0); // Reset the index when a new text is submitted
   };
 
+  useEffect(() => {
+    if (currentIndex < submittedText.length) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, 10); // Adjust the speed by changing the interval duration
+      return () => clearInterval(interval);
+    }
+  }, [currentIndex, submittedText]);
 
   const DeviceSizeCheck = () => {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' });
@@ -64,51 +70,46 @@ function CompanyProfile() {
     return null;
   }
 
-    return (
-      <div className="flex h-[100dvh] overflow-hidden">
-        {/* Sidebar */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+  return (
+    <div className="flex h-[100dvh] overflow-hidden">
+      {/* Sidebar */}
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        {/* Content area */}
-        <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-          {/*  Site header */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      {/* Content area */}
+      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        {/*  Site header */}
+        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-          <main className="grow" style={{overflow:'auto'}}>
+        <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
             {/* Page content */}
             <div className="mb-4 sm:mb-0 flex justify-center">
               <h1
                 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold"
-                // style={{ position: "relative", left: "400px", bottom: "5px" }}
               >
                 Meta Data Suggestion ✨
               </h1>
             </div>
             
-
-            
             <div className="max-w-5xl mx-auto flex flex-col lg:flex-row lg:space-x-8 xl:space-x-16">
               {/* Content */}
-              <div>                
-              </div>
+              <div></div>
               <div
                 className="w-full lg:w-xl"
                 style={{ position: "relative", right: "20%" }}
               >
                 {/* Empty box */}
-
                 <div className="flex">
                   <div className="flex-1">
                     <h1
                       style={{
-                        fontSize: "0.9rem", // Adjusted for responsiveness
+                        fontSize: "0.9rem",
                         fontWeight: "bold",
                         color: "#8f97a9",
                         position: "relative",
-                        top: "1.5rem", // Adjusted for responsiveness
-                        right: "4.9rem", // Adjusted for responsiveness
-                        textAlign: "center", // Center align text for responsiveness
+                        top: "1.5rem",
+                        right: "4.9rem",
+                        textAlign: "center",
                       }}
                     >
                       Prompt
@@ -119,12 +120,12 @@ function CompanyProfile() {
                       placeholder="Enter Placeholder Text"
                       className="w-full bg-white-700 hover:bg-indigo-100 text-black p-3 rounded-md"
                       style={{
-                        width: "100%", // Responsive width
+                        width: "100%",
                         position: "relative",
-                        left: "15.75rem", // Adjusted for responsiveness
-                        top: "1.875rem", // Adjusted for responsiveness
-                        height: "10rem", // Adjusted for responsiveness
-                        overflow: "auto", // Add this line for scrollbar
+                        left: "15.75rem",
+                        top: "1.875rem",
+                        height: "10rem",
+                        overflow: "auto",
                       }}
                     />
                   </div>
@@ -163,7 +164,6 @@ function CompanyProfile() {
                 
                 <br></br>
                 
-
                 <h1
                   style={{
                     fontSize: "10px",
@@ -178,86 +178,82 @@ function CompanyProfile() {
                 </h1>
 
                 <div
-                    className="response-box"
-                    style={{
-                      backgroundColor: "#334155", // Background color
-                      padding: "1rem", // Padding for content
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Soft shadow effect
-                      borderRadius: "5px", // Rounded corners
-                      border: "1px solid #000000", // Black border
-                      maxWidth: "75.3%", // Maximum width for responsiveness
-                      margin: "0 auto", // Center align horizontally
-                      boxSizing: "border-box", // Include padding in width
-                      position: "relative",
-                      left: "8.3rem",
-                      height: "25rem", // Fixed height for the box
-                      overflow: "auto", // Scrollbar when content exceeds height
-                    }}
-                  >
-                    <p>{submittedText}</p>
-                  </div>
-                
+                  className="response-box"
+                  style={{
+                    backgroundColor: "#334155",
+                    padding: "1rem",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "5px",
+                    border: "1px solid #000000",
+                    maxWidth: "75.3%",
+                    margin: "0 auto",
+                    boxSizing: "border-box",
+                    position: "relative",
+                    left: "8.3rem",
+                    height: "25rem",
+                    overflow: "auto",
+                  }}
+                >
+                  <p>{submittedText.substring(0, currentIndex)}</p>
+                </div>
 
                 <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        position: "relative",
-        left: "70px",
-        bottom: "300px",
-      }}
-    >
-      <button
-        className={`bg-${
-          selectedButton === "Title" ? "blue-500" : "slate-700"
-        } hover:bg-blue-500 text-white font-bold py-2 px-11 rounded-t-lg lg:rounded-tl-md`}
-        onClick={() => setSelectedButton("Title")}
-        style={{
-          width: "100%",
-          maxWidth: "130px",
-          borderRadius: "10px 10px 0 0",
-          border: "1px solid white",
-        }}
-      >
-        Title
-      </button>
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    position: "relative",
+                    left: "70px",
+                    bottom: "390px",
+                  }}
+                >
+                  <button
+                    className={`bg-${
+                      selectedButton === "Title" ? "blue-500" : "slate-700"
+                    } hover:bg-blue-500 text-white font-bold py-2 px-11 rounded-t-lg lg:rounded-tl-md`}
+                    onClick={() => setSelectedButton("Title")}
+                    style={{
+                      width: "100%",
+                      maxWidth: "130px",
+                      borderRadius: "10px 10px 0 0",
+                      border: "1px solid white",
+                    }}
+                  >
+                    Title
+                  </button>
 
-      <button
-        className={`bg-${
-          selectedButton === "Description" ? "blue-500" : "slate-700"
-        } hover:bg-blue-500 text-white font-bold py-2 px-5`}
-        onClick={() => setSelectedButton("Description")}
-        style={{ width: "100%", maxWidth: "130px", border: "1px solid white" }}
-      >
-        Description
-      </button>
-      <button
-        className={`bg-${
-          selectedButton === "Hashtags" ? "blue-500" : "slate-700"
-        } hover:bg-blue-500 text-white font-bold py-2 px-3 lg:px-7 rounded-b-lg lg:rounded-bl-md`}
-        onClick={() => setSelectedButton("Hashtags")}
-        style={{
-          width: "100%",
-          maxWidth: "130px",
-          borderRadius: "0 0 10px 10px",
-          border: "1px solid white",
-        }}
-      >
-        Hashtags
-      </button>
-    </div>
-
-    
+                  <button
+                    className={`bg-${
+                      selectedButton === "Description" ? "blue-500" : "slate-700"
+                    } hover:bg-blue-500 text-white font-bold py-2 px-5`}
+                    onClick={() => setSelectedButton("Description")}
+                    style={{ width: "100%", maxWidth: "130px", border: "1px solid white" }}
+                  >
+                    Description
+                  </button>
+                  <button
+                    className={`bg-${
+                      selectedButton === "Hashtags" ? "blue-500" : "slate-700"
+                    } hover:bg-blue-500 text-white font-bold py-2 px-3 lg:px-7 rounded-b-lg lg:rounded-bl-md`}
+                    onClick={() => setSelectedButton("Hashtags")}
+                    style={{
+                      width: "100%",
+                      maxWidth: "130px",
+                      borderRadius: "0 0 10px 10px",
+                      border: "1px solid white",
+                    }}
+                  >
+                    Hashtags
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </main>
-        </div>
-        <DeviceSizeCheck />
       </div>
-    );
+      <DeviceSizeCheck />
+    </div>
+  );
 }
 
 export default CompanyProfile;
-

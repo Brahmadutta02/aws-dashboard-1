@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import regionsData from  '../../../public/country_details.json'
+import axios from 'axios';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
@@ -120,13 +122,49 @@ function JobListing() {
       bgColor: 'bg-blue-200/90',
     }
   ];
+  const [region, setRegion] = useState('All');
+  const filteredItems = region === 'All' ? items : items.filter(item => item.region === region);
+// function handleRegionChange(event) {
+//   setRegion(event.target.value);
+// }
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  
   items.forEach(item => {
     console.log(item);
   });
 
+  const API_ENDPOINT = 'https://yourapiendpoint.com/store';
+
+  const storeRegionData = async (key, value) => {
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ key, value }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error storing region data:', error);
+    }
+  };
+
+  const handleRegionChange = async (event) => {
+    const selectedRegion = event.target.value;
+    setRegion(selectedRegion);
+
+    
+    const response = await storeRegionData('region', selectedRegion);
+    console.log('API response:', response);
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -142,17 +180,46 @@ function JobListing() {
             {/* Page header */}
             <div className="flex justify-center items-center mb-8">
               <div className="text-center">
-                <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">Trending Hashtags ✨</h1>
+                <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
+                  Trending Hashtags ✨
+                </h1>
               </div>
             </div>
 
+            {/* Date and Time stamp */}
             <div className="flex justify-end mb-8">
               <div className="text-right">
-                <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">Last Refresh Time</h1>
-                <p className="text-xs text-gray-500">
-                  {new Date().toISOString().replace('T', ' ').split('.')[0]}
+                <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">
+                  Last Refresh Time
+                </h1>
+                <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold text-center">
+                  {new Date().toISOString().replace("T", " ").split(".")[0]}
                 </p>
               </div>
+            </div>
+
+            {/* Country details */}
+            <div >
+            <div className="flex flex-col items-center justify-end mb-8 w-64 h-1">
+              <label
+                htmlFor="region"
+                className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
+              >
+                Region
+              </label>
+              <select
+                id="region"
+                value={region}
+                onChange={handleRegionChange}
+                className="text-gray-900 dark:text-gray-900 w-full rounded-md"
+              >
+                {regionsData.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
+            </div>
             </div>
 
             {/* Page content */}
