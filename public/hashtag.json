@@ -1,0 +1,27 @@
+{
+    "bgColors": [
+      "bg-blue-600/95",
+      "bg-blue-600/80",
+      "bg-blue-600/75",
+      "bg-blue-500/75",
+      "bg-blue-500/80",
+      "bg-blue-400/75",
+      "bg-blue-400/60",
+      "bg-blue-300/90",
+      "bg-blue-300/75",
+      "bg-blue-200/90"
+    ],
+    "items": [
+      { "role": "#BET", "bgColorIndex": 0 },
+      { "role": "#minecraft", "bgColorIndex": 1 },
+      { "role": "#BETAwards", "bgColorIndex": 2 },
+      { "role": "#nba", "bgColorIndex": 3 },
+      { "role": "#RedOneMovie", "bgColorIndex": 4 },
+      { "role": "#Euro2024", "bgColorIndex": 5 },
+      { "role": "#ufc303", "bgColorIndex": 6 },
+      { "role": "#CulturesBiggestNight", "bgColorIndex": 7 },
+      { "role": "#challenge", "bgColorIndex": 8 },
+      { "role": "#NBCSports", "bgColorIndex": 9 }
+    ]
+  }
+  
