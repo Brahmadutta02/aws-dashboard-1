@@ -24,19 +24,21 @@ function JobListing() {
     'bg-blue-200/90',
   ];
 
-  const myHeaders = new Headers();
-  myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
-  myHeaders.append("Content-Type", "application/json");
+  const getRequestOptions = (region) => {
+    const myHeaders = new Headers();
+    myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
+    myHeaders.append("Content-Type", "application/json");
 
-  const raw = JSON.stringify({
-    "body": "{\"type\": \"trending_hashtags\", \"region\": \"US\"}"
-  });
+    const raw = JSON.stringify({
+      "body": `{ "type": "trending_hashtags", "region": "${region}" }`
+    });
 
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow"
+    return {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
   };
 
   const [hashtags, setHashtags] = useState([]);
@@ -46,25 +48,35 @@ function JobListing() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        const responseBody = JSON.parse(result.body);
-
-        // Extract date and hashtags
-        const date = responseBody.date;
-        const hashtags = responseBody.hashtags;
-
-        // Log the extracted data
-        console.log('Date:', date);
-        console.log('Hashtags:', hashtags);
-
-        // Update the hashtags state
-        setDate(date)
-        setHashtags(hashtags);
-      })
-      .catch((error) => console.error('Error:', error));
-  }, []); // Empty dependency array to run once
+    const fetchHashtags = (region) => {
+      const requestOptions = getRequestOptions(region);
+      fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log('Raw result:', result);
+          try {
+            const responseBody = JSON.parse(result.body);
+  
+            // Extract date and hashtags
+            const date = responseBody.date;
+            const hashtags = responseBody.hashtags;
+  
+            // Log the extracted data
+            console.log('Date:', date);
+            console.log('Hashtags:', hashtags);
+  
+            // Update the hashtags state
+            setDate(date);
+            setHashtags(hashtags);
+          } catch (error) {
+            console.error();
+          }
+        })
+        .catch((error) => console.error('Fetch error:', error));
+    };
+ 
+    fetchHashtags(region);
+  }, [region]);
 
   useEffect(() => {
     const transformHashtagsToItems = (hashtags) => {
@@ -82,13 +94,22 @@ function JobListing() {
     item.bgColor = bgColors[item.bgColorIndex];
   });
 
-  const handleRegionChange = async (event) => {
+  const handleRegionChange = (event) => {
     const selectedRegion = event.target.value;
     setRegion(selectedRegion);
 
-    const response = await storeRegionData('region', selectedRegion);
-    console.log('API response:', response);
-  };
+
+  // Trigger the submit action
+  if (selectedRegion) {
+    handleSubmit(selectedRegion);
+  }
+};
+
+const handleSubmit = (selectedRegion) => {
+  // Implement your submit logic here
+  console.log(`Selected region: ${selectedRegion}`);
+  // You can also make an API call or perform other actions
+};
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -127,38 +148,38 @@ function JobListing() {
 
             {/* Country details */}
             <div
-              className="flex flex-col items-center justify-end mb-8 w-64 h-1"
-              style={{ marginTop: "-2.1rem" }}
-            >
-              <label
-                htmlFor="region"
-                className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
-              >
-                Region
-              </label>
-              <div className="dropdown">
-                <select
-                  style={{
-                    width: "200px",
-                    maxWidth: "100%",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                  }}
-                  id="region"
-                  value={region}
-                  onChange={handleRegionChange}
-                  className="text-gray-900 dark:text-gray-100 w-full bg-slate-50 dark:bg-slate-700 rounded-md max-w-md dropdown-menu"
-                >
-                  <option value=''>United States of America</option>
-                  {regionsData.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.text}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+      className="flex flex-col items-center justify-end mb-8 w-64 h-1"
+      style={{ marginTop: '-2.1rem' }}
+    >
+      <label
+        htmlFor="region"
+        className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
+      >
+        Region
+      </label>
+      <div className="dropdown">
+        <select
+          style={{
+            width: '200px',
+            maxWidth: '100%',
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+          }}
+          id="region"
+          value={region}
+          onChange={handleRegionChange}
+          className="text-gray-900 dark:text-gray-100 w-full bg-slate-50 dark:bg-slate-700 rounded-md max-w-md dropdown-menu"
+        >
+          <option value=''>United States of America</option>
+          {regionsData.options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.text}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
 
             {/* Page content */}
             <div className="grid grid-cols-1 gap-6">

@@ -13,6 +13,8 @@ function JobPost() {
   const [submittedText, setSubmittedText] = useState('');
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [apiResponse, setApiResponse] = useState(''); // New state for API response
+  
 
   const clearTextarea = () => {
     setPlaceholderText(''); // Clear the content of the textarea by updating the state
@@ -43,9 +45,41 @@ function JobPost() {
   };
 
   const handleSubmit = () => {
-    setSubmittedText(placeholderText); // Update submittedText state with entered text
-    setDisplayedText(''); // Reset displayed text
-    setCurrentIndex(0); // Reset current index
+    if (placeholderText.trim() === '') {
+      alert('Type something in Prompt');
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "body": JSON.stringify({
+        "type": "content_suggestion",
+        "topic_name": placeholderText
+      })
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
+      .then((response) => response.json()) // Parse the response as JSON
+      .then((result) => {
+        const body = JSON.parse(result.body);
+        const formattedResponse = Object.entries(body)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('\n');
+        setSubmittedText(formattedResponse); // Update submittedText state with formatted response
+        setDisplayedText(''); // Reset displayed text
+        setCurrentIndex(0); // Reset current index
+      })
+      .catch((error) => console.error(error));
   };
 
   useEffect(() => {
