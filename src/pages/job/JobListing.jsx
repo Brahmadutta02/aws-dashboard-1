@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import regionsData from '../../../public/country_details.json';
 import axios from 'axios';
 
@@ -15,15 +15,15 @@ function JobListing() {
     'bg-blue-600/95',
     'bg-blue-600/80',
     'bg-blue-600/75',
-    'bg-blue-500/75',
     'bg-blue-500/80',
-    'bg-blue-400/75',
+    'bg-blue-500/75',
     'bg-blue-400/60',
+    'bg-blue-400/75',
     'bg-blue-300/90',
     'bg-blue-300/75',
     'bg-blue-200/90',
   ];
-  
+
   const myHeaders = new Headers();
   myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
   myHeaders.append("Content-Type", "application/json");
@@ -39,40 +39,53 @@ function JobListing() {
     redirect: "follow"
   };
 
-  fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      const responseBody = JSON.parse(result.body);
+  const [hashtags, setHashtags] = useState([]);
+  const [date, setDate] = useState('');
+  const [items, setItems] = useState([]);
+  const [region, setRegion] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-      // Extract date and hashtags
-      const date = responseBody.date;
-      const hashtags = responseBody.hashtags;
+  useEffect(() => {
+    fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        const responseBody = JSON.parse(result.body);
 
-      // Log the extracted data
-      console.log('Date:', date);
-      console.log('Hashtags:', hashtags);
-    })
-    .catch((error) => console.error('Error:', error));
-  
-  // Mock data for items
-  const [items, setItems] = useState([
-    { role: 'Software Engineer', bgColorIndex: 0 },
-    { role: 'Product Manager', bgColorIndex: 1 },
-    { role: 'Designer', bgColorIndex: 2 },
-  ]);
+        // Extract date and hashtags
+        const date = responseBody.date;
+        const hashtags = responseBody.hashtags;
+
+        // Log the extracted data
+        console.log('Date:', date);
+        console.log('Hashtags:', hashtags);
+
+        // Update the hashtags state
+        setDate(date)
+        setHashtags(hashtags);
+      })
+      .catch((error) => console.error('Error:', error));
+  }, []); // Empty dependency array to run once
+
+  useEffect(() => {
+    const transformHashtagsToItems = (hashtags) => {
+      return hashtags.map((hashtag, index) => ({
+        role: hashtag,
+        bgColorIndex: index % bgColors.length,
+      }));
+    };
+
+    setItems(transformHashtagsToItems(hashtags));
+  }, [hashtags]); // Run when hashtags state changes
 
   // Example of how to use the bgColorIndex to get the actual bgColor
   items.forEach(item => {
     item.bgColor = bgColors[item.bgColorIndex];
   });
 
-  const [region, setRegion] = useState('All');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const handleRegionChange = async (event) => {
     const selectedRegion = event.target.value;
     setRegion(selectedRegion);
-    
+
     const response = await storeRegionData('region', selectedRegion);
     console.log('API response:', response);
   };
@@ -106,25 +119,38 @@ function JobListing() {
                 </h1>
                 <div className="p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700">
                   <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold text-center">
-                    {new Date().toISOString().split("T")[0]}
+                      {date ? date : new Date().toISOString().split("T")[0]}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Country details */}
-            <div className="flex flex-col items-center justify-end mb-8 w-64 h-1" style={{ marginTop: "-2.1rem" }}>
-              <label htmlFor="region" className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">
+            <div
+              className="flex flex-col items-center justify-end mb-8 w-64 h-1"
+              style={{ marginTop: "-2.1rem" }}
+            >
+              <label
+                htmlFor="region"
+                className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
+              >
                 Region
               </label>
               <div className="dropdown">
                 <select
-                  style={{ width: '200px', maxWidth: '100%', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+                  style={{
+                    width: "200px",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
                   id="region"
                   value={region}
                   onChange={handleRegionChange}
                   className="text-gray-900 dark:text-gray-100 w-full bg-slate-50 dark:bg-slate-700 rounded-md max-w-md dropdown-menu"
                 >
+                  <option value=''>United States of America</option>
                   {regionsData.options.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.text}
@@ -140,14 +166,18 @@ function JobListing() {
               <div className="w-full">
                 {/* Jobs list */}
                 <div className="flex justify-center">
-                  <div className="space-y-4 w-full max-w-md">
-                    {items.map((item, index) => (
-                      <JobListItem
-                        key={index}
-                        role={item.role}
-                        bgColor={item.bgColor}
-                      />
-                    ))}
+                  <div className="space-y-4 w-full max-w-md border border-gray-300 p-4 rounded-lg">
+                  {items.length > 0 ? (
+                      items.map((item, index) => (
+                        <div key={index} className="rounded-lg overflow-auto">
+                          <JobListItem role={item.role} bgColor={item.bgColor} />
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-slate-800 dark:text-slate-100 font-bold bg-blue-600/95 p-4 rounded-lg">
+                        No trending hashtags available for the selected date.
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
