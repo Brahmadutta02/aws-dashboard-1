@@ -13,10 +13,10 @@ function JobPost() {
   const [submittedText, setSubmittedText] = useState([]);
   const [displayedText, setDisplayedText] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(false); // New state for loading effect
+  const [loading, setLoading] = useState(false); 
 
   const clearTextarea = () => {
-    setPlaceholderText(''); // Clear the content of the textarea by updating the state
+    setPlaceholderText(''); 
   };
 
   const DeviceSizeCheck = () => {
@@ -49,7 +49,7 @@ function JobPost() {
       return;
     }
 
-    setLoading(true); // Set loading to true when submit button is clicked
+    setLoading(true); 
 
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");

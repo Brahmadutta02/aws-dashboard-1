@@ -17,14 +17,17 @@ function CompanyProfile() {
 
   const [selectedButton, setSelectedButton] = useState('Title'); // Adjusted for single string
 
+  // Function to clear the content of the textarea
   const clearTextarea = () => {
-    setPlaceholderText(""); // Clear the content of the textarea by updating the state
+    setPlaceholderText("");
   };
 
+  // Function to handle changes in the textarea
   const handleChange = (event) => {
-    setPlaceholderText(event.target.value); // Update the state with textarea content
+    setPlaceholderText(event.target.value);
   };
 
+  // Function to handle form submission
   const handleSubmit = () => {
     if (placeholderText.trim() === '') {
       alert('Type something in Topic Name');
@@ -71,6 +74,7 @@ function CompanyProfile() {
     setCurrentIndex(0);
   };
 
+  // UseEffect hook to animate the response text
   useEffect(() => {
     if (currentIndex < submittedText.length) {
       const interval = setInterval(() => {
@@ -81,6 +85,7 @@ function CompanyProfile() {
     }
   }, [currentIndex, submittedText]);
 
+  // Media query component to check device size
   const DeviceSizeCheck = () => {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' });
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' });
@@ -105,7 +110,7 @@ function CompanyProfile() {
 
       {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/*  Site header */}
+        {/* Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main className="grow">
