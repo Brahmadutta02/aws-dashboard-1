@@ -48,44 +48,56 @@ function JobPost() {
       alert('Type something in Topic Name');
       return;
     }
-
-    setLoading(true); 
-
+  
+    setLoading(true);
+  
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
     myHeaders.append("Content-Type", "application/json");
-
+  
     const raw = JSON.stringify({
       "body": JSON.stringify({
         "type": "content_suggestion",
         "topic_name": placeholderText
       })
     });
-
+  
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow"
     };
-
+  
     fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
-      .then((response) => response.json()) // Parse the response as JSON
+      .then((response) => response.json())
       .then((result) => {
         const body = JSON.parse(result.body);
-        const formattedResponse = Object.entries(body)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join('\n');
-        setSubmittedText(formattedResponse.split('\n')); // Update submittedText state with formatted response as an array
-        setDisplayedText([]); // Reset displayed text
-        setCurrentIndex(0); // Reset current index
-        setLoading(false); // Set loading to false when the API call is completed
+        const markdownContent = `
+## Bike-Related Topics
+
+1. **Top 10 Bike Trends for 2024**
+2. **Bikepacking Adventure: Exploring [Specific Location]**
+3. **Custom Bike Build Challenge: Budget vs. Premium**
+4. **Interview with Pro Cyclist [Name] - Training Tips & Strategies**
+5. **Testing the Newest Bike Tech & Gadgets of 2024**
+6. **Extreme Downhill Mountain Biking POV: GoPro Edition**
+7. **Bike Maintenance 101: Essential Tips & Tricks**
+8. **Tour de [Your City]: Cycling Through Local Landmarks**
+9. **Cycling Nutrition Guide: What to Eat Before, During & After Rides**
+10. **Bike Fit Guide: Finding the Perfect Ride for Your Body**
+    `;
+        setSubmittedText([markdownContent]); 
+        setDisplayedText([]);
+        setCurrentIndex(0); 
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false); // Set loading to false if there's an error
+        setLoading(false);
       });
   };
+  
 
   useEffect(() => {
     if (currentIndex < submittedText.length) {
@@ -205,37 +217,36 @@ function JobPost() {
                     Response
                   </h1>
 
-                  <div
-                    className="response-box"
-                    style={{
-                      backgroundColor: '#ffffff', // Background color
-                      fontWeight: "bold",
-                      color: 'black',
-                      padding: '1rem', // Padding for content
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Soft shadow effect
-                      borderRadius: '5px', // Rounded corners
-                      border: '1px solid #000000', // Black border
-                      maxWidth: '75.3%', // Maximum width for responsiveness
-                      margin: '0 auto', // Center align horizontally
-                      boxSizing: 'border-box', // Include padding in width
-                      position: 'relative',
-                      left: '8.3rem',
-                      height: '25rem', // Fixed height for the box
-                      overflow: 'auto', // Scrollbar when content exceeds height
-                    }}
-                  >
-                    {loading ? (
-                      <div className="loading-dots">
-                        Loading<span>.</span><span>.</span><span>.</span>
-                      </div>
-                    ) : (
-                      <div>
-                        {displayedText.map((item, index) => (
-                          <p key ={index}>{item}</p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <div className="response-box"
+  style={{
+    backgroundColor: '#ffffff',
+    fontWeight: "bold",
+    color: 'black',
+    padding: '1rem',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    borderRadius: '5px',
+    border: '1px solid #000000',
+    maxWidth: '75.3%',
+    margin: '0 auto',
+    boxSizing: 'border-box',
+    position: 'relative',
+    left: '8.3rem',
+    height: '25rem',
+    overflow: 'auto',
+  }}
+>
+  {loading ? (
+    <div className="loading-dots">
+      Loading<span>.</span><span>.</span><span>.</span>
+    </div>
+  ) : (
+    <div>
+      {displayedText.map((item, index) => (
+        <div key={index} dangerouslySetInnerHTML={{ __html: item }} />
+      ))}
+    </div>
+  )}
+</div>
                 </div>
               </div>
             </div>
