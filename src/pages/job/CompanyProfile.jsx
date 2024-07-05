@@ -9,27 +9,13 @@ import CompanyBg from '../../images/company-bg.jpg';
 import CompanyImage from '../../images/company-icon-01.svg';
 
 function CompanyProfile() {
-
-  const items = [
-    // Group 1
-    [],
-    // Group 2
-    [],
-    // Group 3
-    [],
-  ];  
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const [activeTab, setActiveTab] = useState(0); 
-
-  const [selectedButton, setSelectedButton] = useState('Title', 'Description', 'Hashtags');
-
   const [placeholderText, setPlaceholderText] = useState("");
-
   const [submittedText, setSubmittedText] = useState("");
-
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(false); // New state for loading effect
+
+  const [selectedButton, setSelectedButton] = useState('Title'); // Adjusted for single string
 
   const clearTextarea = () => {
     setPlaceholderText(""); // Clear the content of the textarea by updating the state
@@ -44,22 +30,23 @@ function CompanyProfile() {
       alert('Type something in Topic Name');
       return;
     }
-  
+
+    setLoading(true); // Show loading effect
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
     myHeaders.append("Content-Type", "application/json");
-  
+
     const raw = JSON.stringify({
       "body": "{\"type\": \"metadata_suggestion\", \"content_idea\": \"" + placeholderText + "\",\"detail_type\": \"" + selectedButton + "\"}"
     });
-  
+
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow"
     };
-  
+
     fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
       .then((response) => response.text())
       .then((result) => {
@@ -67,18 +54,21 @@ function CompanyProfile() {
         const responseBody = JSON.parse(parsedResult.body);
         console.log(result);
         setSubmittedText(responseBody.suggestion);
-        setCurrentIndex(0); 
+        setCurrentIndex(0);
+        setLoading(false); // Hide loading effect
       })
-
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setLoading(false); // Hide loading effect on error
+      });
   };
-  
 
   useEffect(() => {
     if (currentIndex < submittedText.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 10); // Adjust the speed by changing the interval duration
+      }, 100); // Adjust the speed by changing the interval duration
+  
       return () => clearInterval(interval);
     }
   }, [currentIndex, submittedText]);
@@ -89,16 +79,16 @@ function CompanyProfile() {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
     const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
     const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' });
-  
+
     // Use these variables as needed
     // console.log("isDesktopOrLaptop:", isDesktopOrLaptop);
     // console.log("isBigScreen:", isBigScreen);
     // console.log("isTabletOrMobile:", isTabletOrMobile);
     // console.log("isPortrait:", isPortrait);
     // console.log("isRetina:", isRetina);
-  
+
     return null;
-  }
+  };
 
   return (
     <div className="flex h-[100dvh] overflow-hidden">
@@ -206,27 +196,27 @@ function CompanyProfile() {
                 </h1>
 
                 <div
-                  className="mt-4 p-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg"
-                  style={{
-                    backgroundColor: "#ffffff",
-                    fontWeight: "bold",
-                    color: "black",
-                    padding: "1rem",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    borderRadius: "5px",
-                    border: "1px solid #000000",
-                    maxWidth: "75.3%",
-                    margin: "0 auto",
-                    boxSizing: "border-box",
-                    position: "relative",
-                    left: "8.3rem",
-                    top: "2rem",
-                    height: "25rem",
-                    overflow: "auto",
-                  }}
-                >
-                  <p>{submittedText}</p>
-                </div>
+  className="mt-4 p-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg"
+  style={{
+    backgroundColor: "#ffffff",
+    fontWeight: "bold",
+    color: "black",
+    padding: "1rem",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    borderRadius: "5px",
+    border: "1px solid #000000",
+    maxWidth: "75.3%",
+    margin: "0 auto",
+    boxSizing: "border-box",
+    position: "relative",
+    left: "8.3rem",
+    top: "2rem",
+    height: "25rem",
+    overflow: "auto",
+  }}
+>
+  {loading ? 'Loading...' : submittedText.split(' ').slice(0, currentIndex).join(' ')}
+</div>
 
                 <div
                   style={{

@@ -155,7 +155,7 @@ function JobListing() {
             </div>
 
             {/* Date and Time stamp */}
-            <div className="flex justify-end mb-8">
+            <div className="flex justify-end mb-8 mr-16">
               <div className="text-right">
                 <h1 className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold">
                   Last Refresh Time

@@ -13,8 +13,7 @@ function JobPost() {
   const [submittedText, setSubmittedText] = useState([]);
   const [displayedText, setDisplayedText] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [apiResponse, setApiResponse] = useState(''); // New state for API response
-  
+  const [loading, setLoading] = useState(false); // New state for loading effect
 
   const clearTextarea = () => {
     setPlaceholderText(''); // Clear the content of the textarea by updating the state
@@ -50,6 +49,8 @@ function JobPost() {
       return;
     }
 
+    setLoading(true); // Set loading to true when submit button is clicked
+
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
     myHeaders.append("Content-Type", "application/json");
@@ -78,8 +79,12 @@ function JobPost() {
         setSubmittedText(formattedResponse.split('\n')); // Update submittedText state with formatted response as an array
         setDisplayedText([]); // Reset displayed text
         setCurrentIndex(0); // Reset current index
+        setLoading(false); // Set loading to false when the API call is completed
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setLoading(false); // Set loading to false if there's an error
+      });
   };
 
   useEffect(() => {
@@ -219,11 +224,17 @@ function JobPost() {
                       overflow: 'auto', // Scrollbar when content exceeds height
                     }}
                   >
-                    <ol>
-                      {displayedText.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ol>
+                    {loading ? (
+                      <div className="loading-dots">
+                        Loading<span>.</span><span>.</span><span>.</span>
+                      </div>
+                    ) : (
+                      <ol>
+                        {displayedText.map((item, index) => (
+                          <li key={index}>{item}</li>
+                        ))}
+                      </ol>
+                    )}
                   </div>
                 </div>
               </div>

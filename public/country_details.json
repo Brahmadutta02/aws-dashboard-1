@@ -1,5 +1,6 @@
 {
     "options": [
+        { "value": "US", "text": "United States of America" },
         { "value": "AD", "text": "Andorra" },
         { "value": "AE", "text": "United Arab Emirates" },
         { "value": "AF", "text": "Afghanistan" },
@@ -232,7 +233,6 @@
         { "value": "UA", "text": "Ukraine" },
         { "value": "UG", "text": "Uganda" },
         { "value": "UM", "text": "United States Minor Outlying Islands" },
-        { "value": "US", "text": "United States of America" },
         { "value": "UY", "text": "Uruguay" },
         { "value": "UZ", "text": "Uzbekistan" },
         { "value": "VA", "text": "Holy See" },
