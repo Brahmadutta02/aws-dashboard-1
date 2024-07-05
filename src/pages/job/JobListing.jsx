@@ -48,6 +48,7 @@ function JobListing() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false); // Track if data has been loaded
   const [hashtagError, setHashtagError] = useState(false); // Track if there was an error fetching hashtags
+  const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
     const fetchHashtags = (region) => {
@@ -91,12 +92,14 @@ function JobListing() {
           console.error('Fetch error:', error);
           setHashtagError(true); // Set error if there's a fetch error
           setHashtags([]); // Set empty array to signify no hashtags on fetch error
+        })
+        .finally(() => {
+          setLoading(false); // Set loading to false when fetch completes
         });
     };
 
     fetchHashtags(region);
   }, [region]);
-
 
   useEffect(() => {
     const transformHashtagsToItems = (hashtags) => {
@@ -200,7 +203,14 @@ function JobListing() {
             </div>
 
             {/* Page content */}
-            {dataLoaded && !hashtagError ? (
+            {loading ? (
+              <div className="flex justify-center items-center h-full">
+                <div className="text-center text-slate-800 dark:text-slate-100 font-bold">
+                  Loading<span className="animate-dots inline-block">...</span>
+                </div>
+                
+              </div>
+            ) : dataLoaded && !hashtagError ? (
               <div className="grid grid-cols-1 gap-6">
                 {/* Content */}
                 <div className="w-full">
