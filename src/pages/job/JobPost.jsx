@@ -30,11 +30,11 @@ function JobPost() {
     const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' });
 
     // Use these variables as needed
-    console.log('isDesktopOrLaptop:', isDesktopOrLaptop);
-    console.log('isBigScreen:', isBigScreen);
-    console.log('isTabletOrMobile:', isTabletOrMobile);
-    console.log('isPortrait:', isPortrait);
-    console.log('isRetina:', isRetina);
+    // console.log('isDesktopOrLaptop:', isDesktopOrLaptop);
+    // console.log('isBigScreen:', isBigScreen);
+    // console.log('isTabletOrMobile:', isTabletOrMobile);
+    // console.log('isPortrait:', isPortrait);
+    // console.log('isRetina:', isRetina);
 
     // You can return JSX elements here if needed
     return null;
@@ -46,7 +46,7 @@ function JobPost() {
 
   const handleSubmit = () => {
     if (placeholderText.trim() === '') {
-      alert('Type something in Prompt');
+      alert('Type something in Topic Name');
       return;
     }
 
@@ -204,6 +204,7 @@ function JobPost() {
                     className="response-box"
                     style={{
                       backgroundColor: '#ffffff', // Background color
+                      fontWeight: "bold",
                       color: 'black',
                       padding: '1rem', // Padding for content
                       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Soft shadow effect

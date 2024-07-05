@@ -231,8 +231,8 @@ function JobListing() {
               </div>
             ) : (
               <div className="flex justify-center items-center h-full">
-                <div className="text-center text-slate-800 dark:text-slate-100 font-bold bg-red-600/95 w-64 p-4 rounded-lg border border-grey">
-                  Response body is empty or undefined. No trending hashtags available.
+                <div className="text-center text-slate-800 dark:text-slate-100 font-bold bg-blue-600/95 w-64 p-4 rounded-lg border border-grey">
+                  No trending hashtags available.
                 </div>
               </div>
             )}

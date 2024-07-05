@@ -40,9 +40,39 @@ function CompanyProfile() {
   };
 
   const handleSubmit = () => {
-    setSubmittedText(placeholderText);
-    setCurrentIndex(0); // Reset the index when a new text is submitted
+    if (placeholderText.trim() === '') {
+      alert('Type something in Topic Name');
+      return;
+    }
+  
+    const myHeaders = new Headers();
+    myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
+    myHeaders.append("Content-Type", "application/json");
+  
+    const raw = JSON.stringify({
+      "body": "{\"type\": \"metadata_suggestion\", \"content_idea\": \"" + placeholderText + "\",\"detail_type\": \"" + selectedButton + "\"}"
+    });
+  
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+  
+    fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const parsedResult = JSON.parse(result);
+        const responseBody = JSON.parse(parsedResult.body);
+        console.log(result);
+        setSubmittedText(responseBody.suggestion);
+        setCurrentIndex(0); 
+      })
+
+      .catch((error) => console.error(error));
   };
+  
 
   useEffect(() => {
     if (currentIndex < submittedText.length) {
@@ -61,11 +91,11 @@ function CompanyProfile() {
     const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' });
   
     // Use these variables as needed
-    console.log("isDesktopOrLaptop:", isDesktopOrLaptop);
-    console.log("isBigScreen:", isBigScreen);
-    console.log("isTabletOrMobile:", isTabletOrMobile);
-    console.log("isPortrait:", isPortrait);
-    console.log("isRetina:", isRetina);
+    // console.log("isDesktopOrLaptop:", isDesktopOrLaptop);
+    // console.log("isBigScreen:", isBigScreen);
+    // console.log("isTabletOrMobile:", isTabletOrMobile);
+    // console.log("isPortrait:", isPortrait);
+    // console.log("isRetina:", isRetina);
   
     return null;
   }
@@ -84,13 +114,11 @@ function CompanyProfile() {
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
             {/* Page content */}
             <div className="mb-4 sm:mb-0 flex justify-center">
-              <h1
-                className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold"
-              >
+              <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
                 Meta Data Suggestion ✨
               </h1>
             </div>
-            
+
             <div className="max-w-5xl mx-auto flex flex-col lg:flex-row lg:space-x-8 xl:space-x-16">
               {/* Content */}
               <div></div>
@@ -105,14 +133,14 @@ function CompanyProfile() {
                       style={{
                         fontSize: "0.9rem",
                         fontWeight: "bold",
-                        color: "#8f97a9",
+                        color: "#7e8aa7",
                         position: "relative",
                         top: "1.5rem",
-                        right: "4.9rem",
+                        right: "4.1rem",
                         textAlign: "center",
                       }}
                     >
-                      Prompt
+                      Topic Name
                     </h1>
                     <textarea
                       value={placeholderText}
@@ -161,14 +189,14 @@ function CompanyProfile() {
                     </button>
                   </div>
                 </div>
-                
+
                 <br></br>
-                
+
                 <h1
                   style={{
                     fontSize: "0.9rem",
                     fontWeight: "bold",
-                    color: "#8f97a9",
+                    color: "#7e8aa7",
                     position: "relative",
                     top: "30px",
                     left: "252px",
@@ -178,9 +206,11 @@ function CompanyProfile() {
                 </h1>
 
                 <div
-                  className="response-box"
+                  className="mt-4 p-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg"
                   style={{
                     backgroundColor: "#ffffff",
+                    fontWeight: "bold",
+                    color: "black",
                     padding: "1rem",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                     borderRadius: "5px",
@@ -195,7 +225,7 @@ function CompanyProfile() {
                     overflow: "auto",
                   }}
                 >
-                  <p>{submittedText.substring(0, currentIndex)}</p>
+                  <p>{submittedText}</p>
                 </div>
 
                 <div
@@ -225,10 +255,16 @@ function CompanyProfile() {
 
                   <button
                     className={`bg-${
-                      selectedButton === "Description" ? "blue-500" : "slate-700"
+                      selectedButton === "Description"
+                        ? "blue-500"
+                        : "slate-700"
                     } hover:bg-blue-500 text-white font-bold py-2 px-5`}
                     onClick={() => setSelectedButton("Description")}
-                    style={{ width: "100%", maxWidth: "130px", border: "1px solid white" }}
+                    style={{
+                      width: "100%",
+                      maxWidth: "130px",
+                      border: "1px solid white",
+                    }}
                   >
                     Description
                   </button>
