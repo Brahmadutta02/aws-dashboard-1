@@ -166,7 +166,7 @@ function CompanyProfile() {
                 
                 <h1
                   style={{
-                    fontSize: "10px",
+                    fontSize: "0.9rem",
                     fontWeight: "bold",
                     color: "#8f97a9",
                     position: "relative",
@@ -180,7 +180,7 @@ function CompanyProfile() {
                 <div
                   className="response-box"
                   style={{
-                    backgroundColor: "#334155",
+                    backgroundColor: "#ffffff",
                     padding: "1rem",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                     borderRadius: "5px",
@@ -190,6 +190,7 @@ function CompanyProfile() {
                     boxSizing: "border-box",
                     position: "relative",
                     left: "8.3rem",
+                    top: "2rem",
                     height: "25rem",
                     overflow: "auto",
                   }}

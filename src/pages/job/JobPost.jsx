@@ -10,8 +10,8 @@ function JobPost() {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedButton, setSelectedButton] = useState('Title');
   const [placeholderText, setPlaceholderText] = useState('');
-  const [submittedText, setSubmittedText] = useState('');
-  const [displayedText, setDisplayedText] = useState('');
+  const [submittedText, setSubmittedText] = useState([]);
+  const [displayedText, setDisplayedText] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [apiResponse, setApiResponse] = useState(''); // New state for API response
   
@@ -75,8 +75,8 @@ function JobPost() {
         const formattedResponse = Object.entries(body)
           .map(([key, value]) => `${key}: ${value}`)
           .join('\n');
-        setSubmittedText(formattedResponse); // Update submittedText state with formatted response
-        setDisplayedText(''); // Reset displayed text
+        setSubmittedText(formattedResponse.split('\n')); // Update submittedText state with formatted response as an array
+        setDisplayedText([]); // Reset displayed text
         setCurrentIndex(0); // Reset current index
       })
       .catch((error) => console.error(error));
@@ -85,9 +85,9 @@ function JobPost() {
   useEffect(() => {
     if (currentIndex < submittedText.length) {
       const timer = setTimeout(() => {
-        setDisplayedText((prev) => prev + submittedText[currentIndex]);
+        setDisplayedText((prev) => [...prev, submittedText[currentIndex]]);
         setCurrentIndex((prev) => prev + 1);
-      }, 10); // Adjust the interval as needed
+      }, 300); // Adjust the interval as needed
       return () => clearTimeout(timer);
     }
   }, [currentIndex, submittedText]);
@@ -120,19 +120,19 @@ function JobPost() {
                 {/* Empty box */}
 
                 <div className="flex">
-                  <div className="flex-1">
+                  <div className="flex-1 ">
                     <h1
                       style={{
                         fontSize: '0.9rem', // Adjusted for responsiveness
                         fontWeight: 'bold',
-                        color: '#8f97a9',
+                        color: '#7e8aa7',
                         position: 'relative',
                         top: '1.5rem', // Adjusted for responsiveness
-                        right: '4.9rem', // Adjusted for responsiveness
+                        right: '4.1rem', // Adjusted for responsiveness
                         textAlign: 'center', // Center align text for responsiveness
                       }}
                     >
-                      Prompt
+                      Topic Name
                     </h1>
                     <textarea
                       value={placeholderText}
@@ -189,7 +189,7 @@ function JobPost() {
                     style={{
                       fontSize: '0.9rem', // Adjust font size as needed
                       fontWeight: 'bold',
-                      color: '#8f97a9',
+                      color: '#7e8aa7',
                       position: 'relative',
                       right: '11.9rem',
                       top: '0.5rem',
@@ -203,7 +203,8 @@ function JobPost() {
                   <div
                     className="response-box"
                     style={{
-                      backgroundColor: '#334155', // Background color
+                      backgroundColor: '#ffffff', // Background color
+                      color: 'black',
                       padding: '1rem', // Padding for content
                       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Soft shadow effect
                       borderRadius: '5px', // Rounded corners
@@ -217,7 +218,11 @@ function JobPost() {
                       overflow: 'auto', // Scrollbar when content exceeds height
                     }}
                   >
-                    <p>{displayedText}</p>
+                    <ol>
+                      {displayedText.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ol>
                   </div>
                 </div>
               </div>

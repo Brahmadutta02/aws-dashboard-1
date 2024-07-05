@@ -44,8 +44,10 @@ function JobListing() {
   const [hashtags, setHashtags] = useState([]);
   const [date, setDate] = useState('');
   const [items, setItems] = useState([]);
-  const [region, setRegion] = useState('');
+  const [region, setRegion] = useState('US'); // Default region to US
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false); // Track if data has been loaded
+  const [hashtagError, setHashtagError] = useState(false); // Track if there was an error fetching hashtags
 
   useEffect(() => {
     const fetchHashtags = (region) => {
@@ -55,28 +57,46 @@ function JobListing() {
         .then((result) => {
           console.log('Raw result:', result);
           try {
-            const responseBody = JSON.parse(result.body);
-  
-            // Extract date and hashtags
-            const date = responseBody.date;
-            const hashtags = responseBody.hashtags;
-  
-            // Log the extracted data
-            console.log('Date:', date);
-            console.log('Hashtags:', hashtags);
-  
-            // Update the hashtags state
-            setDate(date);
-            setHashtags(hashtags);
+            if (result.body) {
+              const responseBody = JSON.parse(result.body);
+
+              // Extract date and hashtags
+              const date = responseBody.date;
+              const hashtags = responseBody.hashtags;
+
+              // Log the extracted data
+              console.log('Date:', date);
+              console.log('Hashtags:', hashtags);
+
+              // Update the hashtags state
+              setDate(date);
+              setHashtags(hashtags);
+              setDataLoaded(true); // Set data loaded to true
+              setHashtagError(false); // Reset error state when data is loaded
+              if (hashtags.length === 0) {
+                setHashtagError(true); // Set error if hashtags array is empty
+              }
+            } else {
+              console.error('Response body is empty or undefined.');
+              setHashtagError(true); // Set error if response body is empty
+              setHashtags([]); // Set empty array to signify no hashtags
+            }
           } catch (error) {
-            console.error();
+            console.error('Error parsing response:', error);
+            setHashtagError(true); // Set error if there's an error parsing response
+            setHashtags([]); // Set empty array to signify no hashtags on error
           }
         })
-        .catch((error) => console.error('Fetch error:', error));
+        .catch((error) => {
+          console.error('Fetch error:', error);
+          setHashtagError(true); // Set error if there's a fetch error
+          setHashtags([]); // Set empty array to signify no hashtags on fetch error
+        });
     };
- 
+
     fetchHashtags(region);
   }, [region]);
+
 
   useEffect(() => {
     const transformHashtagsToItems = (hashtags) => {
@@ -98,18 +118,17 @@ function JobListing() {
     const selectedRegion = event.target.value;
     setRegion(selectedRegion);
 
+    // Trigger the submit action
+    if (selectedRegion) {
+      handleSubmit(selectedRegion);
+    }
+  };
 
-  // Trigger the submit action
-  if (selectedRegion) {
-    handleSubmit(selectedRegion);
-  }
-};
-
-const handleSubmit = (selectedRegion) => {
-  // Implement your submit logic here
-  console.log(`Selected region: ${selectedRegion}`);
-  // You can also make an API call or perform other actions
-};
+  const handleSubmit = (selectedRegion) => {
+    // Implement your submit logic here
+    console.log(`Selected region: ${selectedRegion}`);
+    // You can also make an API call or perform other actions
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -140,7 +159,7 @@ const handleSubmit = (selectedRegion) => {
                 </h1>
                 <div className="p-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-700">
                   <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold text-center">
-                      {date ? date : new Date().toISOString().split("T")[0]}
+                    {date ? date : new Date().toISOString().split("T")[0]}
                   </p>
                 </div>
               </div>
@@ -148,61 +167,65 @@ const handleSubmit = (selectedRegion) => {
 
             {/* Country details */}
             <div
-      className="flex flex-col items-center justify-end mb-8 w-64 h-1"
-      style={{ marginTop: '-2.1rem' }}
-    >
-      <label
-        htmlFor="region"
-        className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
-      >
-        Region
-      </label>
-      <div className="dropdown">
-        <select
-          style={{
-            width: '200px',
-            maxWidth: '100%',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-          }}
-          id="region"
-          value={region}
-          onChange={handleRegionChange}
-          className="text-gray-900 dark:text-gray-100 w-full bg-slate-50 dark:bg-slate-700 rounded-md max-w-md dropdown-menu"
-        >
-          <option value=''>United States of America</option>
-          {regionsData.options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.text}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
+              className="flex flex-col items-center justify-end mb-8 w-64 h-1"
+              style={{ marginTop: "-2.1rem" }}
+            >
+              <label
+                htmlFor="region"
+                className="text-sm md:text-lg text-slate-800 dark:text-slate-100 font-bold"
+              >
+                Region
+              </label>
+              <div className="dropdown">
+                <select
+                  style={{
+                    width: "300px",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                  id="region"
+                  value={region}
+                  onChange={handleRegionChange}
+                  className="text-gray-900 dark:text-gray-100 w-full bg-slate-50 dark:bg-slate-700 rounded-md max-w-md dropdown-menu"
+                >
+                  {regionsData.options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.text}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
             {/* Page content */}
-            <div className="grid grid-cols-1 gap-6">
-              {/* Content */}
-              <div className="w-full">
-                {/* Jobs list */}
-                <div className="flex justify-center">
-                  <div className="space-y-4 w-full max-w-md border border-gray-300 p-4 rounded-lg">
-                  {items.length > 0 ? (
-                      items.map((item, index) => (
+            {dataLoaded && !hashtagError ? (
+              <div className="grid grid-cols-1 gap-6">
+                {/* Content */}
+                <div className="w-full">
+                  {/* Jobs list */}
+                  <div className="flex justify-center">
+                    <div className="space-y-4 w-full max-w-md border border-gray-300 p-4 rounded-lg">
+                      {items.map((item, index) => (
                         <div key={index} className="rounded-lg overflow-auto">
-                          <JobListItem role={item.role} bgColor={item.bgColor} />
+                          <JobListItem
+                            role={item.role}
+                            bgColor={item.bgColor}
+                          />
                         </div>
-                      ))
-                    ) : (
-                      <div className="text-center text-slate-800 dark:text-slate-100 font-bold bg-blue-600/95 p-4 rounded-lg">
-                        No trending hashtags available for the selected date.
-                      </div>
-                    )}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex justify-center items-center h-full">
+                <div className="text-center text-slate-800 dark:text-slate-100 font-bold bg-red-600/95 w-64 p-4 rounded-lg border border-grey">
+                  Response body is empty or undefined. No trending hashtags available.
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
