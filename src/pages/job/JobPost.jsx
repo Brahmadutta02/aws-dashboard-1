@@ -229,11 +229,11 @@ function JobPost() {
                         Loading<span>.</span><span>.</span><span>.</span>
                       </div>
                     ) : (
-                      <ol>
+                      <div>
                         {displayedText.map((item, index) => (
-                          <li key={index}>{item}</li>
+                          <p key ={index}>{item}</p>
                         ))}
-                      </ol>
+                      </div>
                     )}
                   </div>
                 </div>

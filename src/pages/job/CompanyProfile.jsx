@@ -30,23 +30,23 @@ function CompanyProfile() {
       alert('Type something in Topic Name');
       return;
     }
-
+  
     setLoading(true); // Show loading effect
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
     myHeaders.append("Content-Type", "application/json");
-
+  
     const raw = JSON.stringify({
       "body": "{\"type\": \"metadata_suggestion\", \"content_idea\": \"" + placeholderText + "\",\"detail_type\": \"" + selectedButton + "\"}"
     });
-
+  
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow"
     };
-
+  
     fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
       .then((response) => response.text())
       .then((result) => {
@@ -61,6 +61,14 @@ function CompanyProfile() {
         console.error(error);
         setLoading(false); // Hide loading effect on error
       });
+  };
+  
+  // Handle button click to change selected button
+  const handleButtonClick = (buttonType) => {
+    setSelectedButton(buttonType);
+    // Clear response box and reset currentIndex when switching button
+    setSubmittedText("");
+    setCurrentIndex(0);
   };
 
   useEffect(() => {
@@ -196,27 +204,29 @@ function CompanyProfile() {
                 </h1>
 
                 <div
-  className="mt-4 p-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg"
-  style={{
-    backgroundColor: "#ffffff",
-    fontWeight: "bold",
-    color: "black",
-    padding: "1rem",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    borderRadius: "5px",
-    border: "1px solid #000000",
-    maxWidth: "75.3%",
-    margin: "0 auto",
-    boxSizing: "border-box",
-    position: "relative",
-    left: "8.3rem",
-    top: "2rem",
-    height: "25rem",
-    overflow: "auto",
-  }}
->
-  {loading ? 'Loading...' : submittedText.split(' ').slice(0, currentIndex).join(' ')}
-</div>
+                  className="mt-4 p-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg"
+                  style={{
+                    backgroundColor: "#ffffff",
+                    fontWeight: "bold",
+                    color: "black",
+                    padding: "1rem",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    borderRadius: "5px",
+                    border: "1px solid #000000",
+                    maxWidth: "75.3%",
+                    margin: "0 auto",
+                    boxSizing: "border-box",
+                    position: "relative",
+                    left: "8.3rem",
+                    top: "2rem",
+                    height: "25rem",
+                    overflow: "auto",
+                  }}
+                >
+                  {loading
+                    ? "Loading..."
+                    : submittedText.split(" ").slice(0, currentIndex).join(" ")}
+                </div>
 
                 <div
                   style={{
@@ -232,7 +242,7 @@ function CompanyProfile() {
                     className={`bg-${
                       selectedButton === "Title" ? "blue-500" : "slate-700"
                     } hover:bg-blue-500 text-white font-bold py-2 px-11 rounded-t-lg lg:rounded-tl-md`}
-                    onClick={() => setSelectedButton("Title")}
+                    onClick={() => handleButtonClick("Title")}
                     style={{
                       width: "100%",
                       maxWidth: "130px",
@@ -249,7 +259,7 @@ function CompanyProfile() {
                         ? "blue-500"
                         : "slate-700"
                     } hover:bg-blue-500 text-white font-bold py-2 px-5`}
-                    onClick={() => setSelectedButton("Description")}
+                    onClick={() => handleButtonClick("Description")}
                     style={{
                       width: "100%",
                       maxWidth: "130px",
@@ -258,11 +268,12 @@ function CompanyProfile() {
                   >
                     Description
                   </button>
+
                   <button
                     className={`bg-${
                       selectedButton === "Hashtags" ? "blue-500" : "slate-700"
                     } hover:bg-blue-500 text-white font-bold py-2 px-3 lg:px-7 rounded-b-lg lg:rounded-bl-md`}
-                    onClick={() => setSelectedButton("Hashtags")}
+                    onClick={() => handleButtonClick("Hashtags")}
                     style={{
                       width: "100%",
                       maxWidth: "130px",
