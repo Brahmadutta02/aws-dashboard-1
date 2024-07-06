@@ -52,6 +52,7 @@ function JobListing() {
 
   useEffect(() => {
     const fetchHashtags = (region) => {
+      setLoading(true); // Set loading to true when starting to fetch data
       const requestOptions = getRequestOptions(region);
       fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
         .then((response) => response.json())
@@ -64,7 +65,6 @@ function JobListing() {
               // Extract date and hashtags
               const date = responseBody.date;
               const hashtags = responseBody.hashtags;
-              
 
               // Log the extracted data
               console.log('Date:', date);
@@ -95,7 +95,7 @@ function JobListing() {
           setHashtags([]); // Set empty array to signify no hashtags on fetch error
         })
         .finally(() => {
-          setLoading(false); // Set loading to false when fetch completes
+          setTimeout(() => setLoading(false), 500); // Add a slight delay before setting loading to false
         });
     };
 
@@ -209,7 +209,6 @@ function JobListing() {
                 <div className="text-center text-slate-800 dark:text-slate-100 font-bold">
                   Loading<span className="animate-dots inline-block">...</span>
                 </div>
-                
               </div>
             ) : dataLoaded && !hashtagError ? (
               <div className="grid grid-cols-1 gap-6">
