@@ -1,42 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
-import JobListItem from '../../partials/job/JobListItem';
-
-import CompanyBg from '../../images/company-bg.jpg';
-import CompanyImage from '../../images/company-icon-01.svg';
 import ReactMarkdown from 'react-markdown';
-
 
 function CompanyProfile() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [placeholderText, setPlaceholderText] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(false); // New state for loading effect
+  const [loading, setLoading] = useState(false);
+  const [renderingComplete, setRenderingComplete] = useState(false); 
 
-  const [selectedButton, setSelectedButton] = useState('Title'); // Adjusted for single string
+  const [selectedButton, setSelectedButton] = useState('Title');
 
-  // Function to clear the content of the textarea
   const clearTextarea = () => {
     setPlaceholderText("");
   };
 
-  // Function to handle changes in the textarea
   const handleChange = (event) => {
     setPlaceholderText(event.target.value);
   };
 
-  // Function to handle form submission
   const handleSubmit = () => {
     if (placeholderText.trim() === '') {
       alert('Type something in Topic Name');
       return;
     }
   
-    setLoading(true); // Show loading effect
+    setLoading(true);
+    setRenderingComplete(false); 
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
     myHeaders.append("Content-Type", "application/json");
@@ -60,34 +53,32 @@ function CompanyProfile() {
         console.log(result);
         setSubmittedText(responseBody.suggestion);
         setCurrentIndex(0);
-        setLoading(false); // Hide loading effect
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false); // Hide loading effect on error
+        setLoading(false);
       });
   };
   
-  // Handle button click to change selected button
   const handleButtonClick = (buttonType) => {
     setSelectedButton(buttonType);
-    // Clear response box and reset currentIndex when switching button
     setSubmittedText("");
     setCurrentIndex(0);
   };
 
-  // UseEffect hook to animate the response text
   useEffect(() => {
     if (currentIndex < submittedText.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
-      }, 100); // Adjust the speed by changing the interval duration
+      }, 100);
   
       return () => clearInterval(interval);
+    } else {
+      setRenderingComplete(true);
     }
   }, [currentIndex, submittedText]);
 
-  // Media query component to check device size
   const DeviceSizeCheck = () => {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' });
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' });
@@ -95,43 +86,31 @@ function CompanyProfile() {
     const isPortrait = useMediaQuery({ query: '(orientation: portrait)' });
     const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' });
 
-    // Use these variables as needed
-    // console.log("isDesktopOrLaptop:", isDesktopOrLaptop);
-    // console.log("isBigScreen:", isBigScreen);
-    // console.log("isTabletOrMobile:", isTabletOrMobile);
-    // console.log("isPortrait:", isPortrait);
-    // console.log("isRetina:", isRetina);
-
     return null;
+  };
+
+  const markdownComponents = {
+    p: ({ node, ...props }) => <p {...props} />,
   };
 
   return (
     <div className="flex h-[100dvh] overflow-hidden">
-      {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Content area */}
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        {/* Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
         <main className="grow">
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
-            {/* Page content */}
             <div className="mb-4 sm:mb-0 flex justify-center">
               <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
                 Meta Data Suggestion ✨
               </h1>
             </div>
-
             <div className="max-w-5xl mx-auto flex flex-col lg:flex-row lg:space-x-8 xl:space-x-16">
-              {/* Content */}
               <div></div>
               <div
                 className="w-full lg:w-xl"
                 style={{ position: "relative", right: "20%" }}
               >
-                {/* Empty box */}
                 <div className="flex">
                   <div className="flex-1">
                     <h1
@@ -162,7 +141,6 @@ function CompanyProfile() {
                       }}
                     />
                   </div>
-
                   <div>
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded mb-4"
@@ -214,7 +192,6 @@ function CompanyProfile() {
                   className="mt-4 p-4 bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg"
                   style={{
                     backgroundColor: "#ffffff",
-                    fontWeight: "bold",
                     color: "black",
                     padding: "1rem",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
@@ -227,12 +204,21 @@ function CompanyProfile() {
                     left: "8.3rem",
                     top: "2rem",
                     height: "25rem",
-                    overflow: "auto",
+                    overflowY: "auto", 
+                    overflowX: "hidden",
+                    wordWrap: "break-word", 
                   }}
                 >
-                  {loading
-                    ? "Loading..."
-                    : submittedText.split(" ").slice(0, currentIndex).join(" ")}
+                  {loading ? (
+                    "Loading..."
+                  ) : (
+                    <ReactMarkdown components={markdownComponents}>
+                      {submittedText
+                        .split(" ")
+                        .slice(0, currentIndex)
+                        .join(" ")}
+                    </ReactMarkdown>
+                  )}
                 </div>
 
                 <div
@@ -259,7 +245,6 @@ function CompanyProfile() {
                   >
                     Title
                   </button>
-
                   <button
                     className={`bg-${
                       selectedButton === "Description"
@@ -275,7 +260,6 @@ function CompanyProfile() {
                   >
                     Description
                   </button>
-
                   <button
                     className={`bg-${
                       selectedButton === "Hashtags" ? "blue-500" : "slate-700"
