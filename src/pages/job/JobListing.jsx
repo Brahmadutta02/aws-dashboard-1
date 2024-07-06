@@ -64,6 +64,7 @@ function JobListing() {
               // Extract date and hashtags
               const date = responseBody.date;
               const hashtags = responseBody.hashtags;
+              
 
               // Log the extracted data
               console.log('Date:', date);

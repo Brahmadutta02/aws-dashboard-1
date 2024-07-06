@@ -102,7 +102,7 @@ function CompanyProfile() {
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full">
             <div className="mb-4 sm:mb-0 flex justify-center">
               <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold">
-                Meta Data Suggestion ✨
+                Metadata Suggestion ✨
               </h1>
             </div>
             <div className="max-w-5xl mx-auto flex flex-col lg:flex-row lg:space-x-8 xl:space-x-16">

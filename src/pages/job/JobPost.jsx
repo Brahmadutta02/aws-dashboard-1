@@ -35,33 +35,33 @@ function JobPost() {
       alert('Type something in Topic Name');
       return;
     }
-
+  
     setLoading(true);
-
+  
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "no5LtyF1CI4peL4ifoD036r0F8ZWbq9s2IdPV80N");
     myHeaders.append("Content-Type", "application/json");
-
+  
     const raw = JSON.stringify({
       "body": JSON.stringify({
         "type": "content_suggestion",
         "topic_name": placeholderText
       })
     });
-
+  
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow"
     };
-
+  
     fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         const body = JSON.parse(result.body);
-        const formattedResponse = Object.entries(body)
-          .map(([key, value]) => `${key}: ${value}`)
+        const formattedResponse = Object.values(body)
+          .map((value, index) => `${index + 1}. ${value}`)
           .join('\n');
         setSubmittedText(formattedResponse.split('\n'));
         setDisplayedText([]);
@@ -73,6 +73,7 @@ function JobPost() {
         setLoading(false);
       });
   };
+  
 
   useEffect(() => {
     if (currentIndex < submittedText.length) {
@@ -200,7 +201,7 @@ function JobPost() {
                       position: "relative",
                       left: "8.3rem",
                       height: "25rem",
-                      overflowY: "auto", 
+                      overflowY: "auto",
                       display: "flex",
                       flexDirection: "column",
                       flexWrap: "nowrap",
