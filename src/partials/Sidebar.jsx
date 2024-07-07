@@ -73,6 +73,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     setOpenMetaDataSuggestions(!openMetaDataSuggestions);
   };
 
+  
+
   return (
     <div className="min-w-fit" style={{ position: "relative", width: "0px" }}>
       {/* Sidebar backdrop (mobile only) */}
@@ -245,7 +247,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                         </div>
                       </a>
                       <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                        <ul className={`pl-9 mt-1 ${!open && "open"}`}>
+                        <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
@@ -350,7 +352,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                         >
                                           <ul
                                             className={`pl-9 mt-1 ${
-                                              !open && "open"
+                                              !open && "hidden"
                                             }`}
                                           >
                                             <li className="mb-1 last:mb-0">
@@ -384,7 +386,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                                 Content Suggestions
                                               </span>
                                             </NavLink>
-
                                             
                                             <NavLink
                                               end
