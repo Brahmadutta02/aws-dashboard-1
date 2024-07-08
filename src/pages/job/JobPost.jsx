@@ -216,7 +216,17 @@ function JobPost() {
                     ) : (
                       <div>
                         {displayedText.map((item, index) => (
-                          <ReactMarkdown key={index}>{item}</ReactMarkdown>
+                          <ReactMarkdown
+                            key={index}
+                            className="response-item"
+                            components={{
+                              li: ({ node, ...props }) => (
+                                <li {...props} style={{ marginBottom: '10px' }} />
+                              ),
+                            }}
+                          >
+                            {item}
+                          </ReactMarkdown>
                         ))}
                       </div>
                     )}

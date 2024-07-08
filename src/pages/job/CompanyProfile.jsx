@@ -50,7 +50,7 @@ function CompanyProfile() {
       .then((result) => {
         const parsedResult = JSON.parse(result);
         const responseBody = JSON.parse(parsedResult.body);
-        console.log(result);
+        // console.log(result);
         setSubmittedText(responseBody.suggestion);
         setCurrentIndex(0);
         setLoading(false);
@@ -90,7 +90,7 @@ function CompanyProfile() {
   };
 
   const markdownComponents = {
-    p: ({ node, ...props }) => <p {...props} />,
+    p: ({ node, ...props }) => <p {...props} style={{ marginBottom: '1rem' }} />,
   };
 
   return (
