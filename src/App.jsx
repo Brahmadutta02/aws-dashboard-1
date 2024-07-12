@@ -16,7 +16,6 @@ import './charts/ChartjsConfig';
 
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
-import Fintech from './pages/Fintech';
 import Customers from './pages/ecommerce/Customers';
 import Orders from './pages/ecommerce/Orders';
 import Invoices from './pages/ecommerce/Invoices';
@@ -53,12 +52,7 @@ import Apps from './pages/settings/Apps';
 import Plans from './pages/settings/Plans';
 import Billing from './pages/settings/Billing';
 import Feedback from './pages/settings/Feedback';
-// import Changelog from './pages/utility/Changelog';
-// import Roadmap from './pages/utility/Roadmap';
-// import Faqs from './pages/utility/Faqs';
-// import EmptyState from './pages/utility/EmptyState';
 import PageNotFound from './pages/utility/PageNotFound';
-// import KnowledgeBase from './pages/utility/KnowledgeBase';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import ResetPassword from './pages/ResetPassword';
@@ -66,26 +60,14 @@ import Onboarding01 from './pages/Onboarding01';
 import Onboarding02 from './pages/Onboarding02';
 import Onboarding03 from './pages/Onboarding03';
 import Onboarding04 from './pages/Onboarding04';
-// import ButtonPage from './pages/component/ButtonPage';
-// import FormPage from './pages/component/FormPage';
-// import DropdownPage from './pages/component/DropdownPage';
-// import AlertPage from './pages/component/AlertPage';
-// import ModalPage from './pages/component/ModalPage';
-// import PaginationPage from './pages/component/PaginationPage';
-// import TabsPage from './pages/component/TabsPage';
-// import BreadcrumbPage from './pages/component/BreadcrumbPage';
-// import BadgePage from './pages/component/BadgePage';
-// import AvatarPage from './pages/component/AvatarPage';
-// import TooltipPage from './pages/component/TooltipPage';
-// import AccordionPage from './pages/component/AccordionPage';
-// import IconsPage from './pages/component/IconsPage';
+
 
 function App() {
 
   const location = useLocation();
 
   useEffect(() => {
-    document.querySelector('html').style.scrollBehavior = 'auto'
+    document.querySelector('html').style.scrollBehavior = ''
     window.scroll({ top: 0 })
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]); // triggered on route change
@@ -95,7 +77,6 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
         <Route path="/dashboard/analytics" element={<Analytics />} />
-        <Route path="/dashboard/fintech" element={<Fintech />} />
         {/* <Route path="/ecommerce/customers" element={<Customers />} /> */}
         <Route path="/video-url" element={<Customers />} />
         <Route path="/ecommerce/orders" element={<Orders />} />
@@ -120,9 +101,9 @@ function App() {
         {/* <Route path="/finance/transactions" element={<Transactions />} /> */}
         <Route path="/channel-url" element={<Transactions />} />
         <Route path="/finance/transaction-details" element={<TransactionDetails />} />
-        <Route path="/recommendation/trending-hashtags" element={<JobListing />} />
-        <Route path="/recommendation/content-suggestions" element={<JobPost />} />
-        <Route path="/recommendation/meta-data-suggestions" element={<CompanyProfile />} />
+        <Route path="/dashboard/recommendation/trending-hashtags" element={<JobListing />} />
+        <Route path="/dashboard/recommendation/content-suggestions" element={<JobPost />} />
+        <Route path="/dashboard/recommendation/meta-data-suggestions" element={<CompanyProfile />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/tasks/kanban" element={<TasksKanban />} />
         <Route path="/tasks/list" element={<TasksList />} />

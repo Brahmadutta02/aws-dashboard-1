@@ -57,7 +57,7 @@ function JobListing() {
       fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          console.log('Raw result:', result);
+          // console.log('Raw result:', result);
           try {
             if (result.body) {
               const responseBody = JSON.parse(result.body);
@@ -67,8 +67,8 @@ function JobListing() {
               const hashtags = responseBody.hashtags;
 
               // Log the extracted data
-              console.log('Date:', date);
-              console.log('Hashtags:', hashtags);
+              // console.log('Date:', date);
+              // console.log('Hashtags:', hashtags);
 
               // Update the hashtags state
               setDate(date);
