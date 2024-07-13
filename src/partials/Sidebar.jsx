@@ -428,8 +428,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
-                                  ? "text-indigo-100"
-                                  : "text-slate-100 hover:text-slate-200")
+                                  ? "text-indigo-500"
+                                  : "text-slate-200 hover:text-slate-200")
                               }
                             >
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -463,7 +463,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       href="#0"
                       className={`block text-slate-200 truncate transition duration-150 ${
                         pathname.includes("channel-url")
-                          ? "hover:text-slate-200"
+                          ? "hover:text-white"
                           : "hover:text-white"
                       }`}
                       onClick={(e) => {
@@ -513,8 +513,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 className={({ isActive }) =>
                                   "block transition duration-150 truncate " +
                                   (isActive
-                                    ? "text-indigo-100"
-                                    : "text-slate-100 hover:text-slate-200")
+                                    ? "text-indigo-500"
+                                    : "text-slate-200 hover:text-slate-200")
                                 }
                               >
                                 <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
@@ -539,7 +539,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     href="#0"
                     className={`block text-slate-200 truncate transition duration-150 ${
                       pathname.includes("settings")
-                        ? "hover:text-slate-500 text-white"
+                        ? "hover:text-slate-200"
                         : "hover:text-white"
                     }`}
                     onClick={(e) => {
@@ -615,7 +615,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           className={({ isActive }) =>
                             "block transition duration-150 truncate " +
                             (isActive
-                              ? "text-indigo-200"
+                              ? "text-indigo-500"
                               : "text-slate-400 hover:text-slate-200")
                           }
                         >
