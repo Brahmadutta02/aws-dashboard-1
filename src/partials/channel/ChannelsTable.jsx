@@ -1,76 +1,122 @@
-import React, { useState, useEffect } from 'react';
-import TransactionItem from './ChannelsTableItem';
+import React, { useState, useEffect } from "react";
+import Channel from "./ChannelsTableItem";
 
 function ChannelsTable({ selectedItems }) {
-  const [customers, setTransaction] = useState([]);
+  const [list, setList] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [newUrl, setNewUrl] = useState("");
-  const [list, setList] = useState([]);
+  const [commentsData, setCommentsData] = useState(null); // State variable for comments data
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [selectedStatuses, setSelectedStatuses] = useState([]); // State variable for selected statuses
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+    if (commentsData) {
+      console.log("Comments Data:", commentsData);
+    }
   };
 
-  async function fetchData() {
-    try {
-      const requestOptions = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-        },
-      };
-      const response = await fetch("http://100.25.131.90:8000/status", requestOptions);
-      const data = await response.json();
-      setTransaction(data);
-      setList(data);
-      console.log(data); // Do something with the response data
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  const handleStatusChange = (status) => {
+    setSelectedStatuses((prevStatuses) =>
+      prevStatuses.includes(status)
+        ? prevStatuses.filter((s) => s !== status)
+        : [...prevStatuses, status]
+    );
+  };
 
   useEffect(() => {
-    fetchData();
-  }, [selectedItems]);
+    const myHeaders = new Headers();
+    myHeaders.append("x-api-key", "nQRdfFEoWy3hMcz2Nm1NzaWPu4g7bjZc7QYmjRsL");
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      body: '{"type": "video_processing_status"}',
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://6azv1twa20.execute-api.us-east-1.amazonaws.com/prod",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        // Parse the JSON string in the body property
+        if (result.body) {
+          const parsedBody = JSON.parse(result.body);
+          console.log(result.body);
+          if (parsedBody.video_data) {
+            const videoData = JSON.parse(parsedBody.video_data);
+            setList(videoData);
+          } else {
+            console.error("Unexpected data format:", result);
+          }
+        } else {
+          console.error("Unexpected data format:", result);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleUrlSubmit = (e) => {
     e.preventDefault();
-    fetch('http://100.25.131.90:8000/comments/', {
-      method: 'POST',
-      body: JSON.stringify({
-        url: newUrl,
-      }),
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
+    const myHeaders = new Headers();
+    myHeaders.append("x-api-key", "nQRdfFEoWy3hMcz2Nm1NzaWPu4g7bjZc7QYmjRsL");
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      body: '{"type": "video_comments", "video_id": "1TRK90KSkFM"}',
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      "https://6azv1twa20.execute-api.us-east-1.amazonaws.com/prod",
+      requestOptions
+    )
+      .then((response) => response.json())
       .then((data) => {
-        // Handle the response data if needed
-        console.log(data);
-        // After successful POST request, trigger a reload of the table data
+        console.log("Submitted URL data:", data);
+        if (data.body) {
+          const parsedBody = JSON.parse(data.body);
+          setCommentsData(parsedBody.comments); // Store comments data in state
+        }
         fetchData();
       })
-      .catch((err) => {
-        console.log(err.message);
+      .catch((error) => {
+        console.error("Error submitting URL:", error.message);
       });
-    setNewUrl(""); // Reset the input field after submitting
+
+    setNewUrl("");
   };
 
   const handleRefresh = () => {
-    // Trigger a reload of the table data
     fetchData();
   };
 
   const totalPages = Math.ceil(list.length / itemsPerPage);
 
-  // Slice the list based on current page and items per page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedList = list.slice(startIndex, endIndex);
+  const paginatedList = Array.isArray(list)
+    ? list.slice(startIndex, endIndex)
+    : [];
+
+  const filteredList = selectedStatuses.length
+    ? paginatedList.filter((item) => selectedStatuses.includes(item.status))
+    : paginatedList;
 
   const nextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
@@ -81,16 +127,19 @@ function ChannelsTable({ selectedItems }) {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative p-4">
-      <div>
-        {/* New URL input */}
-        <form onSubmit={handleUrlSubmit} className="flex flex-col md:flex-row justify-end mt-4">
+    <div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
+      <header className="px-5 py-2">
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100"></h2>
+        <form
+          onSubmit={handleUrlSubmit}
+          className="flex flex-col md:flex-row justify-end"
+        >
           <input
             type="text"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
             placeholder="Enter new URL"
-            className="border rounded-l-md px-2 py-1 focus:outline-none mb-2 md:mb-0 md:mr-2"
+            className="border rounded-l-md px-2 py-1 focus:outline-none mb-2 md:mb-0 md:mr-2 text-slate-800"
           />
           <button
             type="submit"
@@ -107,25 +156,36 @@ function ChannelsTable({ selectedItems }) {
             Refresh
           </button>
         </form>
+      </header>
+
+      <div>
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full dark:text-slate-300">
             {/* Table header */}
-            <thead className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/20 border-t border-b border-slate-200 dark:border-slate-700">
+            <thead className="text-sm font-semibold uppercase text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/20 border-t border-b border-slate-200 dark:border-slate-700">
               <tr>
-                <th className="px-2 py-3 whitespace-nowrap w-px">
+                <th className="px-1 py-3 whitespace-nowrap">
                   <span className="sr-only"></span>
                 </th>
-                <th className="px-4 py-3 whitespace-nowrap">Title</th>
-                <th className="px-4 py-3 whitespace-nowrap">Id</th>
-                <th className="px-4 py-3 whitespace-nowrap">Insert Date</th>
-                <th className="px-4 py-3 whitespace-nowrap">Update Date</th>
-                <th className="px-4 py-3 whitespace-nowrap">
-                  <div className="flex items-center justify-between">
+                <th className="px-3 py-6 whitespace-nowrap w-px text-left text-slate-800 dark:text-slate-100">
+                  Channel Title
+                </th>
+                <th className="px-32 py-3 whitespace-nowrap w-px text-left text-slate-800 dark:text-slate-100">
+                Channel Id
+                </th>
+                <th className="px-10 py-3 whitespace-nowrap w-px text-left text-slate-800 dark:text-slate-100">
+                  Insert Date
+                </th>
+                <th className="px-8 py-3 whitespace-nowrap w-px text-left text-slate-800 dark:text-slate-100">
+                  Update Date
+                </th>
+                <th className="px-7 py-3 whitespace-nowrap w-px text-slate-800 dark:text-slate-100">
+                  <div className="px-4 flex items-center justify-between">
                     <span>Status</span>
-                    <div className="dropdown ml-2 relative">
+                    <div className="relative">
                       <button
-                        className="btn btn-primary dropdown-toggle"
+                        className="btn btn-primary dropdown-toggle -ml-8"
                         type="button"
                         onClick={toggleDropdown}
                         aria-haspopup="true"
@@ -134,17 +194,32 @@ function ChannelsTable({ selectedItems }) {
                         <span className="text-indigo-500">&#9660;</span>
                       </button>
                       {isDropdownOpen && (
-                        <div className="absolute mt-2 right-0 w-40 bg-white dark:bg-slate-700 rounded shadow-lg">
+                        <div className="absolute mt-2 -left-8 w-0 bg-white dark:bg-slate-700 rounded shadow-lg">
                           <label className="block flex text-xs py-2 px-4">
-                            <input type="checkbox" value="Failed" className="mr-2" />
+                            <input
+                              type="checkbox"
+                              value="Failed"
+                              className="mr-2"
+                              onChange={() => handleStatusChange("Failed")}
+                            />
                             Failed
                           </label>
                           <label className="block flex text-xs py-2 px-4">
-                            <input type="checkbox" value="Processed" className="mr-2" />
+                            <input
+                              type="checkbox"
+                              value="Processed"
+                              className="mr-2"
+                              onChange={() => handleStatusChange("Processed")}
+                            />
                             Processed
                           </label>
                           <label className="block flex text-xs py-2 px-4">
-                            <input type="checkbox" value="In Queue" className="mr-2" />
+                            <input
+                              type="checkbox"
+                              value="in_queue"
+                              className="mr-2"
+                              onChange={() => handleStatusChange("in_queue")}
+                            />
                             In Queue
                           </label>
                         </div>
@@ -156,21 +231,22 @@ function ChannelsTable({ selectedItems }) {
             </thead>
             {/* Table body */}
             <tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
-              {paginatedList.map((transaction) => (
-                <TransactionItem
-                  key={transaction.id}
-                  id={transaction.video_id}
-                  name={transaction.title}
-                  insert_date={transaction.insert_time}
-                  update_date={transaction.update_time}
-                  status={transaction.status}
-                />
-              ))}
+              {Array.isArray(filteredList) &&
+                filteredList.map((customer) => (
+                  <Channel
+                    key={customer.video_id}
+                    id={customer.video_id}
+                    name={customer.video_title}
+                    insert_date={customer.insert_time}
+                    update_date={customer.update_time}
+                    status={customer.status}
+                  />
+                ))}
             </tbody>
           </table>
         </div>
       </div>
-      <div className="flex justify-between mt-4">
+      <div className="flex justify-between items-center p-4">
         <button
           onClick={previousPage}
           disabled={currentPage === 1}
@@ -178,6 +254,7 @@ function ChannelsTable({ selectedItems }) {
         >
           Previous
         </button>
+
         <button
           onClick={nextPage}
           disabled={currentPage === totalPages}
