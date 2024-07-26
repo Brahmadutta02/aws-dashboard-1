@@ -57,7 +57,7 @@ function TrendingHashtag() {
       fetch("https://hqdc0hrdni.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          console.log('Raw result:', result);
+          // console.log('Raw result:', result);
           try {
             if (result.body) {
               const responseBody = JSON.parse(result.body);
@@ -67,8 +67,8 @@ function TrendingHashtag() {
               const hashtags = responseBody.hashtags;
 
               // Log the extracted data
-              console.log('Date:', date);
-              console.log('Hashtags:', hashtags);
+              // console.log('Date:', date);
+              // console.log('Hashtags:', hashtags);
 
               // Update the hashtags state
               setDate(date);
@@ -130,7 +130,7 @@ function TrendingHashtag() {
 
   const handleSubmit = (selectedRegion) => {
     // Implement your submit logic here
-    console.log(`Selected region: ${selectedRegion}`);
+    // console.log(`Selected region: ${selectedRegion}`);
     // You can also make an API call or perform other actions
   };
 

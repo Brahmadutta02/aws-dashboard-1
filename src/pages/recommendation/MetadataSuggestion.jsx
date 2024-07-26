@@ -51,7 +51,8 @@ function MetadataSuggestion() {
         const parsedResult = JSON.parse(result);
         const responseBody = JSON.parse(parsedResult.body);
         console.log(result);
-        setSubmittedText(responseBody.suggestion);
+        const formattedSuggestion = responseBody.suggestion.replace(/\\n/g, '\n');
+        setSubmittedText(formattedSuggestion);
         setCurrentIndex(0);
         setLoading(false);
       })
@@ -90,7 +91,24 @@ function MetadataSuggestion() {
   };
 
   const markdownComponents = {
-    p: ({ node, ...props }) => <p {...props} style={{ marginBottom: '1rem' }} />,
+    p: ({ node, ...props }) => (
+      <p {...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
+    ),
+    ul: ({ node, ...props }) => (
+      <ul {...props} style={{ paddingLeft: '20px', marginBottom: '10px' }} />
+    ),
+    ol: ({ node, ...props }) => (
+      <ol {...props} style={{ paddingLeft: '20px', marginBottom: '10px', listStyleType: 'decimal' }} />
+    ),
+    li: ({ node, ...props }) => (
+      <li {...props} style={{ marginBottom: '5px' }} />
+    ),
+    h3: ({ node, ...props }) => (
+      <h3 {...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
+    ),
+    h2: ({ node, ...props }) => (
+      <h2 {...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
+    ),
   };
 
   return (
@@ -117,7 +135,6 @@ function MetadataSuggestion() {
                       style={{
                         fontSize: "0.9rem",
                         fontWeight: "bold",
-                        // color: "#7e8aa7",
                         position: "relative",
                         top: "1.5rem",
                         right: "4.1rem",
@@ -179,7 +196,6 @@ function MetadataSuggestion() {
                   style={{
                     fontSize: "0.9rem",
                     fontWeight: "bold",
-                    // color: "#7e8aa7",
                     position: "relative",
                     top: "30px",
                     left: "252px",
@@ -191,8 +207,6 @@ function MetadataSuggestion() {
                 <div
                   className="mt-4 p-4 bg-slate-700 dark:bg-slate-100 text-slate-100 dark:text-slate-800 rounded-lg"
                   style={{
-                    // backgroundColor: "#ffffff",
-                    // color: "black",
                     padding: "1rem",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                     borderRadius: "5px",
@@ -205,8 +219,9 @@ function MetadataSuggestion() {
                     top: "2rem",
                     height: "25rem",
                     overflowY: "auto", 
-                    overflowX: "hidden",
+                    overflowX: "auto",
                     wordWrap: "break-word", 
+                    wordBreak: "break-word",
                   }}
                 >
                   {loading ? (

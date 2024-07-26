@@ -60,9 +60,9 @@ function ContentSuggestion() {
       .then((response) => response.json())
       .then((result) => {
         const body = JSON.parse(result.body); 
-        const formattedResponse = Object.values(body);
+        const formattedResponse = Object.values(body).join(' ').split(' ');
 
-        setSubmittedText(formattedResponse); 
+        setSubmittedText(formattedResponse);
         console.log(formattedResponse)
         setDisplayedText([]); 
         setCurrentIndex(0); 
@@ -70,20 +70,21 @@ function ContentSuggestion() {
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false); // Ensure loading state is set to false on error
+        setLoading(false); 
       });
   };
-
 
   useEffect(() => {
     if (currentIndex < submittedText.length) {
       const timer = setTimeout(() => {
         setDisplayedText((prev) => [...prev, submittedText[currentIndex]]);
         setCurrentIndex((prev) => prev + 1);
-      }, 300);
+      }, 100);
       return () => clearTimeout(timer);
     }
   }, [currentIndex, submittedText]);
+
+  const formattedText = displayedText.join(' ');
 
   return (
     <div className="flex h-[100dvh] overflow-hidden">
@@ -111,7 +112,6 @@ function ContentSuggestion() {
                       style={{
                         fontSize: '0.9rem',
                         fontWeight: 'bold',
-                        // color: '#7e8aa7',
                         position: 'relative',
                         top: '1.5rem',
                         right: '4.1rem',
@@ -175,7 +175,6 @@ function ContentSuggestion() {
                     style={{
                       fontSize: '0.9rem',
                       fontWeight: 'bold',
-                      // color: '#7e8aa7',
                       position: 'relative',
                       right: '20.125%',
                       top: '1.9rem',
@@ -189,8 +188,6 @@ function ContentSuggestion() {
                   <div
                     className="mt-4 p-4 bg-slate-700 dark:bg-slate-100 text-slate-100 dark:text-slate-800 rounded-lg"
                     style={{
-                      // backgroundColor: '#ffffff',
-                      // color: 'black',
                       padding: '1rem',
                       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                       borderRadius: '5px',
@@ -215,34 +212,31 @@ function ContentSuggestion() {
                         <span>.</span>
                       </div>
                     ) : (
-                      displayedText.map((item, index) => (
-                        <ReactMarkdown
-                          key={index}
-                          className="response-item"
-                          components={{
-                            p: ({ node, ...props }) => (
-                              <p {...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
-                            ),
-                            ul: ({ node, ...props }) => (
-                              <ul {...props} style={{ paddingLeft: '20px', marginBottom: '10px' }} />
-                            ),
-                            ol: ({ node, ...props }) => (
-                              <ol {...props} style={{ paddingLeft: '20px', marginBottom: '10px', listStyleType: 'decimal' }} />
-                            ),
-                            li: ({ node, ...props }) => (
-                              <li {...props} style={{ marginBottom: '5px' }} />
-                            ),
-                            h3: ({ node, ...props }) => (
-                              <h3{...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
-                            ),
-                            h2: ({ node, ...props }) => (
-                              <h2{...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
-                            ),
-                          }}
-                        >
-                          {item}
-                        </ReactMarkdown>
-                      ))
+                      <ReactMarkdown
+                        className="response-item"
+                        components={{
+                          p: ({ node, ...props }) => (
+                            <p {...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
+                          ),
+                          ul: ({ node, ...props }) => (
+                            <ul {...props} style={{ paddingLeft: '20px', marginBottom: '10px' }} />
+                          ),
+                          ol: ({ node, ...props }) => (
+                            <ol {...props} style={{ paddingLeft: '20px', marginBottom: '10px', listStyleType: 'decimal' }} />
+                          ),
+                          li: ({ node, ...props }) => (
+                            <li {...props} style={{ marginBottom: '5px' }} />
+                          ),
+                          h3: ({ node, ...props }) => (
+                            <h3{...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
+                          ),
+                          h2: ({ node, ...props }) => (
+                            <h2{...props} style={{ marginBottom: '10px', lineHeight: '1.5' }} />
+                          ),
+                        }}
+                      >
+                        {formattedText}
+                      </ReactMarkdown>
                     )}
                   </div>
                 </div>

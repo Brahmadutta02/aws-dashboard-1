@@ -14,7 +14,7 @@ function ChannelsTable({ selectedItems }) {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
     if (commentsData) {
-      console.log("Comments Data:", commentsData);
+      // console.log("Comments Data:", commentsData);
     }
   };
 
@@ -51,7 +51,7 @@ function ChannelsTable({ selectedItems }) {
         // Parse the JSON string in the body property
         if (result.body) {
           const parsedBody = JSON.parse(result.body);
-          console.log(result.body);
+          // console.log(result.body);
           if (parsedBody.video_data) {
             const videoData = JSON.parse(parsedBody.video_data);
             setList(videoData);
@@ -88,7 +88,7 @@ function ChannelsTable({ selectedItems }) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("Submitted URL data:", data);
+        // console.log("Submitted URL data:", data);
         if (data.body) {
           const parsedBody = JSON.parse(data.body);
           setCommentsData(parsedBody.comments); // Store comments data in state
@@ -172,7 +172,7 @@ function ChannelsTable({ selectedItems }) {
                   Channel Title
                 </th>
                 <th className="px-32 py-3 whitespace-nowrap w-px text-left text-slate-800 dark:text-slate-100">
-                Channel Id
+                  Channel Id
                 </th>
                 <th className="px-10 py-3 whitespace-nowrap w-px text-left text-slate-800 dark:text-slate-100">
                   Insert Date
@@ -182,49 +182,53 @@ function ChannelsTable({ selectedItems }) {
                 </th>
                 <th className="px-7 py-3 whitespace-nowrap w-px text-slate-800 dark:text-slate-100">
                   <div className="px-4 flex items-center justify-between">
-                    <span>Status</span>
-                    <div className="relative">
-                      <button
-                        className="btn btn-primary dropdown-toggle -ml-8"
-                        type="button"
-                        onClick={toggleDropdown}
-                        aria-haspopup="true"
-                        aria-expanded={isDropdownOpen ? "true" : "false"}
-                      >
-                        <span className="text-indigo-500">&#9660;</span>
-                      </button>
-                      {isDropdownOpen && (
-                        <div className="absolute mt-2 -left-8 w-0 bg-white dark:bg-slate-700 rounded shadow-lg">
-                          <label className="block flex text-xs py-2 px-4">
-                            <input
-                              type="checkbox"
-                              value="Failed"
-                              className="mr-2"
-                              onChange={() => handleStatusChange("Failed")}
-                            />
-                            Failed
-                          </label>
-                          <label className="block flex text-xs py-2 px-4">
-                            <input
-                              type="checkbox"
-                              value="Processed"
-                              className="mr-2"
-                              onChange={() => handleStatusChange("Processed")}
-                            />
-                            Processed
-                          </label>
-                          <label className="block flex text-xs py-2 px-4">
-                            <input
-                              type="checkbox"
-                              value="in_queue"
-                              className="mr-2"
-                              onChange={() => handleStatusChange("in_queue")}
-                            />
-                            In Queue
-                          </label>
-                        </div>
-                      )}
-                    </div>
+                    <th className="px-1 py-3 whitespace-nowrap text-slate-800 dark:text-slate-100">
+                      <div className="relative flex items-center">
+                        <span className="">Status</span>
+                        <button
+                          className="ml-2 btn btn-primary dropdown-toggle"
+                          type="button"
+                          onClick={toggleDropdown}
+                          aria-haspopup="true"
+                          aria-expanded={isDropdownOpen ? "true" : "false"}
+                        >
+                          <span className="text-slate-800 dark:text-slate-100">
+                            &#9660;
+                          </span>
+                        </button>
+                        {isDropdownOpen && (
+                          <div className="absolute mt-40 left-14 w-0 bg-white dark:bg-slate-700 rounded shadow-lg">
+                            <label className="block flex text-xs py-2 px-4">
+                              <input
+                                type="checkbox"
+                                value="Failed"
+                                className="mr-2"
+                                onChange={() => handleStatusChange("Failed")}
+                              />
+                              Failed
+                            </label>
+                            <label className="block flex text-xs py-2 px-4">
+                              <input
+                                type="checkbox"
+                                value="Processed"
+                                className="mr-2"
+                                onChange={() => handleStatusChange("Processed")}
+                              />
+                              Processed
+                            </label>
+                            <label className="block flex text-xs py-2 px-4">
+                              <input
+                                type="checkbox"
+                                value="in_queue"
+                                className="mr-2"
+                                onChange={() => handleStatusChange("in_queue")}
+                              />
+                              In Queue
+                            </label>
+                          </div>
+                        )}
+                      </div>
+                    </th>
                   </div>
                 </th>
               </tr>

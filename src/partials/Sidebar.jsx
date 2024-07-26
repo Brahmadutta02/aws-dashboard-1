@@ -91,7 +91,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="block">
+          <NavLink end to="/dashboard" className="block">
             <svg width="32" height="32" viewBox="0 0 32 32">
               <defs>
                 <linearGradient
@@ -225,7 +225,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       <li className="mb-1 last:mb-0">
                         <NavLink
                           end
-                          to="/"
+                          to="/dashboard"
                           className={({ isActive }) =>
                             "block transition duration-150 truncate " +
                             (isActive
