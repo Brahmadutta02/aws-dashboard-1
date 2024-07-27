@@ -21,7 +21,7 @@ export default defineConfig({
       '/api': {
         target: 'http://100.25.131.90:8088',
         changeOrigin: true,
-        secure: false, // If your target server does not have a valid SSL certificate (common in local development environments)
+        secure: false, 
       }
     }
   },

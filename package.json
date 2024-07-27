@@ -25,7 +25,8 @@
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "remark-breaks": "^4.0.0",
-    "remark-gfm": "^4.0.0"
+    "remark-gfm": "^4.0.0",
+    "http-proxy-middleware": "^1.0.6"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.4",
