@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
-  Switch,
   Navigate,
   useLocation
 } from 'react-router-dom';
@@ -55,8 +53,7 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Switch>
+      <Routes>
         <Route path="/" element={<Navigate to="/signin" replace />} />
         <Route path="/signin" element={<Signin onLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
@@ -71,8 +68,7 @@ function App() {
         <Route path="/settings/account" element={<PrivateRoute element={<Account />} />} />
         <Route path="/settings/notifications" element={<PrivateRoute element={<Notifications />} />} />
         <Route path="*" element={<PageNotFound />} />
-        </Switch>
-      </Router>
+      </Routes>
     </>
   );
 }
