@@ -17,7 +17,7 @@ function Signin({ onLogin }) {
     event.preventDefault();
     if (email === hardcodedEmail && password === hardcodedPassword) {
       onLogin();
-      navigate('/dashboard');
+      navigate('/');
     } else {
       setError('Invalid email or password');
     }
