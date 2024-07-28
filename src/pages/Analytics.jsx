@@ -7,7 +7,7 @@ import Header from '../partials/Header';
 
 function Analytics() {
 
-  // console.log("Running dashboard")
+  console.log("Running dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dashboardUrl, setDashboardUrl] = useState("");
   const [overflowX, setOverflowX] = useState('hidden');
@@ -38,7 +38,7 @@ function Analytics() {
         );
 
         const { access_token } = await loginResponse.json();
-        // console.log("access_token", access_token);
+        console.log("access_token", access_token);
 
 
         // Fetch the guest token
@@ -68,10 +68,10 @@ function Analytics() {
         );
 
         const { token } = await guestTokenResponse.json();
-        // console.log("token", token);
+        console.log("token", token);
 
         // Set the dashboard URL with the token
-        // console.log("Setting dashboard URL");
+        console.log("Setting dashboard URL");
         // setDashboardUrl(
         //   `https://bunny-discrete-strictly.ngrok-free.app/superset/dashboard/1/?token=${token}`
         // );

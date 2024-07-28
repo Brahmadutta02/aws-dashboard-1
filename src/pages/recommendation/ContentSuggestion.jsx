@@ -63,7 +63,7 @@ function ContentSuggestion() {
         const formattedResponse = Object.values(body).join(' ').split(' ');
 
         setSubmittedText(formattedResponse);
-        // console.log(formattedResponse)
+        console.log(formattedResponse)
         setDisplayedText([]); 
         setCurrentIndex(0); 
         setLoading(false); 
