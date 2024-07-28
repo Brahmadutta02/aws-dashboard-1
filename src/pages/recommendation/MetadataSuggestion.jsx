@@ -50,7 +50,7 @@ function MetadataSuggestion() {
       .then((result) => {
         const parsedResult = JSON.parse(result);
         const responseBody = JSON.parse(parsedResult.body);
-        // console.log(result);
+        console.log(result);
         const formattedSuggestion = responseBody.suggestion.replace(/\\n/g, '\n');
         setSubmittedText(formattedSuggestion);
         setCurrentIndex(0);
