@@ -27,7 +27,7 @@ function Analytics() {
         };
 
         const loginResponse = await fetch(
-          "http://100.25.131.90:8088/api/v1/security/login",
+          "https://2k9vatq8w5.execute-api.us-east-1.amazonaws.com/api/v1/security/login",
           {
             method: "POST",
             headers: {
@@ -57,7 +57,7 @@ function Analytics() {
           rls: []
         };
 
-        const guestTokenResponse = await fetch("/api/v1/security/guest_token", {
+        const guestTokenResponse = await fetch("http://ec2-100-25-131-90.compute-1.amazonaws.com:8088/api/v1/security/guest_token/", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -78,7 +78,7 @@ function Analytics() {
 
         embedDashboard({
           id: "c6732045-d2ce-4246-a10c-097fdf4c1a56", // Dashboard ID
-          supersetDomain: "http://100.25.131.90:8088/", // Superset instance URL
+          supersetDomain: "https://2k9vatq8w5.execute-api.us-east-1.amazonaws.com/", // Superset instance URL
           mountPoint: document.getElementById("superset-container"), // Mount point
           fetchGuestToken: () => Promise.resolve(token), // Function to fetch token
           dashboardUiConfig: { hideTitle: true }, // UI config
