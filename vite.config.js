@@ -17,13 +17,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5000,
-    proxy: {
-      '/api': {
-        target: 'http://100.25.131.90:8088',
-        changeOrigin: true,
-        secure: false, 
-      }
-    }
+    
   },
 
   resolve: {
