@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
+import {BrowserRouter,
   Routes,
   Route,
   Navigate,
@@ -53,6 +53,7 @@ function App() {
 
   return (
     <>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/signin" replace />} />
         <Route path="/signin" element={<Signin onLogin={handleLogin} />} />
@@ -69,6 +70,7 @@ function App() {
         <Route path="/settings/notifications" element={<PrivateRoute element={<Notifications />} />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+      </BrowserRouter>
     </>
   );
 }
