@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "description": "React landing page template designed by Cruip.",
   "main": "index.js",
-  "homepage": "https://main.d52uqvsb6hc6x.amplifyapp.com/signin/",
+  "private": true,
+  "homepage": "https://main.d52uqvsb6hc6x.amplifyapp.com/",
   "engines": {
     "node": "19.4.0"
   },
