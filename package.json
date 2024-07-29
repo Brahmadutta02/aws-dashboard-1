@@ -4,11 +4,8 @@
   "version": "1.0.0",
   "description": "React landing page template designed by Cruip.",
   "main": "index.js",
-  "private": true,
-  "homepage": "https://main.d52uqvsb6hc6x.amplifyapp.com/",
-  "engines": {
-    "node": "19.4.0"
-  },
+  "homepage": ".",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",
@@ -21,8 +18,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-amplify/adapter-nextjs": "^1.2.10",
-    "aws-amplify": "^6.4.3",
     "axios": "^1.7.2",
     "connect-history-api-fallback": "^2.0.0",
     "express": "^4.18.3",
