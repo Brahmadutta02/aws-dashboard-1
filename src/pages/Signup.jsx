@@ -1,40 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthImage from '../images/log_gin.jpg';
+import AuthImage from '../images/auth-image.jpg';
 import AuthDecoration from '../images/auth-decoration.png';
 
 function Signup() {
-  // Hardcoded values
-  const hardcodedEmail = 'admin@gmail.com';
-  const hardcodedName = 'Admin';
-  const hardcodedPassword = 'admin1234';
-
-  // State to manage form inputs
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email === hardcodedEmail && name === hardcodedName && password === hardcodedPassword) {
-      // Proceed with sign-up (e.g., redirect or show success message)
-      setError('');
-      alert('Sign-up successful!');
-    } else {
-      // Show error message
-      setError('Invalid credentials. Please check your input.');
-    }
-  };
-
   return (
     <main className="bg-white dark:bg-slate-900">
+
       <div className="relative md:flex">
+
         {/* Content */}
         <div className="md:w-1/2">
           <div className="min-h-[100dvh] h-full flex flex-col after:flex-1">
+
             {/* Header */}
             <div className="flex-1">
               <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
@@ -63,15 +42,15 @@ function Signup() {
             <div className="max-w-sm mx-auto w-full px-4 py-8">
               <h1 className="text-3xl text-slate-800 dark:text-slate-100 font-bold mb-6">Create your Account ✨</h1>
               {/* Form */}
-              <form onSubmit={handleSubmit}>
+              <form>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1" htmlFor="email">Email Address <span className="text-rose-500">*</span></label>
-                    <input id="email" className="form-input w-full" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input id="email" className="form-input w-full" type="email" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1" htmlFor="name">Full Name <span className="text-rose-500">*</span></label>
-                    <input id="name" className="form-input w-full" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                    <input id="name" className="form-input w-full" type="text" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1" htmlFor="role">Your Role <span className="text-rose-500">*</span></label>
@@ -83,10 +62,9 @@ function Signup() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1" htmlFor="password">Password</label>
-                    <input id="password" className="form-input w-full" type="password" autoComplete="on" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input id="password" className="form-input w-full" type="password" autoComplete="on" />
                   </div>
                 </div>
-                {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
                 <div className="flex items-center justify-between mt-6">
                   <div className="mr-1">
                     <label className="flex items-center">
@@ -94,7 +72,7 @@ function Signup() {
                       <span className="text-sm ml-2">Email me about product news.</span>
                     </label>
                   </div>
-                  <button type="submit" className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 whitespace-nowrap">Sign Up</button>
+                  <Link className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 whitespace-nowrap" to="/">Sign Up</Link>
                 </div>
               </form>
               {/* Footer */}
@@ -104,6 +82,7 @@ function Signup() {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -112,7 +91,9 @@ function Signup() {
           <img className="object-cover object-center w-full h-full" src={AuthImage} width="760" height="1024" alt="Authentication" />
           <img className="absolute top-1/4 left-0 -translate-x-1/2 ml-8 hidden lg:block" src={AuthDecoration} width="218" height="224" alt="Authentication decoration" />
         </div>
+
       </div>
+
     </main>
   );
 }
