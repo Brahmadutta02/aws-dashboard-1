@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "description": "React landing page template designed by Cruip.",
   "main": "index.js",
-  "homepage": ".",
+  "homepage": "https://main.d52uqvsb6hc6x.amplifyapp.com/signin/",
+  "engines": {
+    "node": "19.4.0"
+  },
 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
