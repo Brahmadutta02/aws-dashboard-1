@@ -30,31 +30,29 @@ function Signin({ onLogin }) {
   return (
     <main className="bg-white dark:bg-slate-900">
       <style>
-  {`
-    .spinner-border {
-      border: 4px solid rgba(0, 0, 0, 0.1); /* Light border color */
-      border-left-color: #3498db; /* Custom color for the spinner */
-      border-radius: 50%;
-      width: 3rem;
-      height: 3rem;
-      animation: spin 1s linear infinite;
-    }
+        {`
+          .spinner-border {
+            border: 4px solid rgba(0, 0, 0, 0.1); /* Light border color */
+            border-left-color: #3498db; /* Custom color for the spinner */
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            animation: spin 1s linear infinite;
+          }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  `}
-</style>
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
 
       <div className="relative md:flex">
         {/* Spinner Loader */}
         {loading && (
-          <div className="absolute inset-0 bg-gray-200 bg-opacity-75 flex items-center justify-center z-50">
-            <div className="spinner-border" style={{
-        border: '4px solid rgba(0, 0, 0, 0.1)', 
-        borderLeftColor: '#3498db' // Custom color for the spinner
-      }}></div>
+          <div className="absolute inset-0 bg-gray-900 bg-opacity-75 flex flex-col items-center justify-center z-50">
+            <div className="spinner-border"></div>
+            <div className="mt-4 text-xl font-medium text-slate-900 dark:text-slate-100">Loading...</div>
           </div>
         )}
         {/* Content */}
