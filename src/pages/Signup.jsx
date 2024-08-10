@@ -7,8 +7,8 @@ import AuthDecoration from '../images/auth-decoration.png';
 function Signup() {
   // Hardcoded values
   const hardcodedEmail = 'brahma.dalai@gmail.com';
-  const hardcodedName = 'BDalai@2580';
-  const hardcodedPassword = 'Brahma';
+  const hardcodedName = 'Brahma';
+  const hardcodedPassword = 'BDalai@2580';
 
   // State to manage form inputs
   const [email, setEmail] = useState('');
@@ -73,14 +73,14 @@ function Signup() {
                     <label className="block text-sm font-medium mb-1" htmlFor="name">Full Name <span className="text-rose-500">*</span></label>
                     <input id="name" className="form-input w-full" type="text" value={name} onChange={(e) => setName(e.target.value)} />
                   </div>
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium mb-1" htmlFor="role">Your Role <span className="text-rose-500">*</span></label>
                     <select id="role" className="form-select w-full">
                       <option>Designer</option>
                       <option>Developer</option>
                       <option>Accountant</option>
                     </select>
-                  </div>
+                  </div> */}
                   <div>
                     <label className="block text-sm font-medium mb-1" htmlFor="password">Password</label>
                     <input id="password" className="form-input w-full" type="password" autoComplete="on" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -89,10 +89,7 @@ function Signup() {
                 {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
                 <div className="flex items-center justify-between mt-6">
                   <div className="mr-1">
-                    <label className="flex items-center">
-                      <input type="checkbox" className="form-checkbox" />
-                      <span className="text-sm ml-2">Email me about product news.</span>
-                    </label>
+                    
                   </div>
                   <button type="submit" className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3 whitespace-nowrap">Sign Up</button>
                 </div>
