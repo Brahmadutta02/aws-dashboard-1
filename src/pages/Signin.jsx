@@ -10,8 +10,8 @@ function Signin({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const hardcodedEmail = 'admin@gmail.com';
-  const hardcodedPassword = 'admin1234';
+  const hardcodedEmail = 'brahma.dalai@gmail.com';
+  const hardcodedPassword = 'BDalai@2580';
 
   const handleSubmit = (event) => {
     event.preventDefault();
