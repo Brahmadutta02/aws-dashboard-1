@@ -6,9 +6,9 @@ import AuthDecoration from '../images/auth-decoration.png';
 
 function Signup() {
   // Hardcoded values
-  const hardcodedEmail = 'admin@gmail.com';
-  const hardcodedName = 'Admin';
-  const hardcodedPassword = 'admin1234';
+  const hardcodedEmail = 'brahma.dalai@gmail.com';
+  const hardcodedName = 'BDalai@2580';
+  const hardcodedPassword = 'Brahma';
 
   // State to manage form inputs
   const [email, setEmail] = useState('');
