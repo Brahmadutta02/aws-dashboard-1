@@ -6,8 +6,9 @@ import {
   useLocation
 } from 'react-router-dom';
 
+// import './App.css'
 import { Amplify } from 'aws-amplify';
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from './aws-exports';
 
@@ -42,22 +43,23 @@ function App() {
 
   return (
     <Authenticator>
-      {({ signOut, user }) => (
+      {({ signOut}) => (
         <>
           <div className="App">
             <header className='App-header'>
               {/* Sign Out Button */}
-              <button 
+              {/* <button 
                 onClick={signOut} 
-                style={{ 
-                  margin: '20px', 
-                  fontSize: '0.8rem', 
-                  padding: '5px 10px', 
-                  marginTop: '20px'
-                }}
+                // style={{ 
+                //   margin: '20px', 
+                //   fontSize: '0.8rem', 
+                //   padding: '5px 10px', 
+                //   marginTop: '20px'
+                // }}
+                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
               >
                 Sign Out
-              </button>
+              </button> */}
             </header>
           </div>
           <Routes>
@@ -82,4 +84,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App);

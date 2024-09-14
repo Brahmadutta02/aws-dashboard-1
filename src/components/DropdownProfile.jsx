@@ -1,19 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Transition from '../utils/Transition';
-
 import UserAvatar from '../images/user-avatar-32.png';
 
-function DropdownProfile({
-  align
-}) {
+import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import awsExports from '../aws-exports';
 
+// Configure Amplify with the AWS exports
+Amplify.configure(awsExports);
+
+function DropdownProfile({ align }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  // close on click outside
+  // Close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!dropdown.current) return;
@@ -24,7 +28,7 @@ function DropdownProfile({
     return () => document.removeEventListener('click', clickHandler);
   });
 
-  // close if the esc key is pressed
+  // Close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
       if (!dropdownOpen || keyCode !== 27) return;
@@ -82,19 +86,22 @@ function DropdownProfile({
               </Link>
             </li>
             <li>
-              <Link
-                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-                to="/signin"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                Sign Out
-              </Link>
+              <Authenticator>
+                {({ signOut }) => (
+                  <button
+                    onClick={signOut}
+                    className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+                  >
+                    Sign Out
+                  </button>
+                )}
+              </Authenticator>
             </li>
           </ul>
         </div>
       </Transition>
     </div>
-  )
+  );
 }
 
 export default DropdownProfile;
